@@ -214,8 +214,8 @@
             <div class="pt-3 border-t border-slate-200 dark:border-slate-800">
               <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">Try with instant samples:</p>
               <div class="flex flex-wrap gap-2">
-                <button class="sample-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 hover:bg-emerald-100 transition flex items-center gap-1.5" data-sample="vivan_birth_certificate_original_signed.pdf">
-                  <i data-lucide="award" class="w-3.5 h-3.5"></i> Vivan Birth Cert (Pehchan)
+                <button class="sample-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 hover:bg-emerald-100 transition flex items-center gap-1.5" data-sample="sample_rajasthan_birth_certificate_signed.pdf">
+                  <i data-lucide="award" class="w-3.5 h-3.5"></i> Govt Birth Cert (Pehchan)
                 </button>
                 <button class="sample-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" data-sample="sample_signed_selfsigned.pdf">
                   Self-Signed (Untrusted)
@@ -664,7 +664,7 @@
         <div class="p-4 overflow-x-auto text-[11px] leading-relaxed">
           <pre><code># Validate any Indian Government signed PDF
 curl -X POST "${window.location.origin}/api/validate" \
-  -F "files=@vivan_birth_certificate.pdf" \
+  -F "files=@birth_certificate.pdf" \
   -F "offline=true"</code></pre>
         </div>
       </div>

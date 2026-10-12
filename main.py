@@ -273,7 +273,7 @@ async def download_audit_cert_by_hash(sha256: str):
 @app.get("/api/samples")
 async def list_samples():
     sample_names = [
-        {"id": "birthcert", "filename": "vivan_birth_certificate_original_signed.pdf", "title": "Rajasthan Birth Certificate (Pehchan Portal)", "description": "Genuine digital signature issued by Rajasthan Gov & SpeedSign, chained to CCA India 2022."},
+        {"id": "birthcert", "filename": "sample_rajasthan_birth_certificate_signed.pdf", "title": "Rajasthan Birth Certificate (Pehchan Portal)", "description": "Genuine digital signature issued by Rajasthan Gov & SpeedSign, chained to CCA India 2022."},
         {"id": "selfsigned", "filename": "sample_signed_selfsigned.pdf", "title": "Self-Signed Test PDF", "description": "Cryptographically intact & valid math, but untrusted root."},
         {"id": "unsigned", "filename": "sample_unsigned.pdf", "title": "Unsigned Standard PDF", "description": "Clean PDF without digital signatures."},
         {"id": "encrypted", "filename": "sample_encrypted_pass_demo123.pdf", "title": "Encrypted PDF (Password: demo123)", "description": "Password-protected document testing decryption."},
