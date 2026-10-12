@@ -343,8 +343,9 @@
                   </div>
                   <div class="relative">
                     <input type="password" id="pdfPasswordInput" placeholder="Enter password (e.g. e-Aadhaar password)..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-600">
-                    <button type="button" id="togglePasswordBtn" class="absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <button type="button" id="togglePasswordBtn" aria-label="Show password" title="Show password" class="absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                       <i data-lucide="eye" class="w-4 h-4"></i>
+                      <span class="sr-only">Show password</span>
                     </button>
                   </div>
                 </div>
@@ -825,8 +826,9 @@ curl -X POST "${window.location.origin}/api/validate" \
           <svg width="20" height="20" viewBox="0 0 100 100" fill="none"><path d="M2 59L12.5 46L37 75.5L81 1L95.5 11.5L38 94.5L2 59Z" fill="#00B23B" stroke="black"></path></svg>
           Trusted Certificate Authorities (CCA India)
         </h3>
-        <button id="closeTrustStoreBtn" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg">
+        <button id="closeTrustStoreBtn" aria-label="Close trusted certificate authorities dialog" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg">
           <i data-lucide="x" class="w-5 h-5"></i>
+          <span class="sr-only">Close</span>
         </button>
       </div>
 
@@ -902,7 +904,10 @@ curl -X POST "${window.location.origin}/api/validate" \
     togglePasswordBtn.addEventListener('click', () => {
       const isPass = passwordInput.type === 'password';
       passwordInput.type = isPass ? 'text' : 'password';
-      togglePasswordBtn.innerHTML = isPass ? '<i data-lucide="eye-off" class="w-4 h-4"></i>' : '<i data-lucide="eye" class="w-4 h-4"></i>';
+      const label = isPass ? 'Hide password' : 'Show password';
+      togglePasswordBtn.setAttribute('aria-label', label);
+      togglePasswordBtn.title = label;
+      togglePasswordBtn.innerHTML = (isPass ? '<i data-lucide="eye-off" class="w-4 h-4"></i>' : '<i data-lucide="eye" class="w-4 h-4"></i>') + `<span class="sr-only">${label}</span>`;
       lucide.createIcons();
     });
 
@@ -991,8 +996,9 @@ curl -X POST "${window.location.origin}/api/validate" \
             <span class="text-slate-800 dark:text-slate-200 truncate font-semibold">${file.name}</span>
             <span class="text-slate-400 font-mono text-[10px]">(${formatBytes(file.size)})</span>
           </div>
-          <button onclick="removeFile(${i})" class="text-slate-400 hover:text-red-500 transition p-1">
+          <button onclick="removeFile(${i})" aria-label="Remove ${file.name}" title="Remove file" class="text-slate-400 hover:text-red-500 transition p-1">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            <span class="sr-only">Remove file</span>
           </button>
         </div>
       `).join('');
