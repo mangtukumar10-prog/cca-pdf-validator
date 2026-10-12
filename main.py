@@ -67,6 +67,26 @@ async def serve_google_verification(code: str):
             return HTMLResponse(content=f.read())
     return HTMLResponse(content=f"google-site-verification: google{code}.html")
 
+@app.get("/robots.txt", response_class=Response, include_in_schema=False)
+async def serve_robots_txt():
+    path = os.path.join(STATIC_DIR, "robots.txt")
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            content = f.read()
+    else:
+        content = "User-agent: *\nAllow: /\nSitemap: https://cca-pdf-validator.onrender.com/sitemap.xml\n"
+    return Response(content=content, media_type="text/plain")
+
+@app.get("/sitemap.xml", response_class=Response, include_in_schema=False)
+async def serve_sitemap_xml():
+    path = os.path.join(STATIC_DIR, "sitemap.xml")
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            content = f.read()
+    else:
+        content = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://cca-pdf-validator.onrender.com/</loc></url></urlset>'
+    return Response(content=content, media_type="application/xml")
+
 @app.get("/api/adsense")
 async def get_adsense_info():
     ads_txt_file = os.path.join(STATIC_DIR, "ads.txt")
