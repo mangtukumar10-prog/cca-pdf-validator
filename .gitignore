@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+cloudflared.exe
+mingit/
+*.zip
+*.log
+.system_generated/
+*.tmp
+*.png
+

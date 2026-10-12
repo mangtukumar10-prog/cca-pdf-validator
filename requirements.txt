@@ -1,0 +1,10 @@
+pyhanko>=0.25.0
+pyhanko-certvalidator>=0.26.0
+fastapi>=0.110.0
+uvicorn>=0.28.0
+python-multipart>=0.0.9
+pypdf>=4.0.0
+cryptography>=42.0.0
+reportlab>=4.0.0
+pillow>=10.0.0
+asn1crypto>=1.5.0

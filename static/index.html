@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SignValid — Validate Indian Government PDF Signatures Online</title>
+  <meta name="description" content="Check the digital signature on e-Aadhaar, e-District, DigiLocker and PAN PDFs against India's CCA hierarchy, then download a verified copy with a green tick. Free.">
+
+  <!-- Google Site Verification (Google Search Console & Webmaster Tools) -->
+  <meta name="google-site-verification" content="9xXuCdHUmQksHLsJteJPCRGVR3estz_dTCbYZHLeb3A" />
+  <meta name="google-site-verification" content="google505a9dac6732b378">
+  <meta name="google-site-verification" content="505a9dac6732b378">
+
+  <!-- Google AdSense Account Verification & Auto-Ads Loader -->
+  <meta name="google-adsense-account" content="ca-pub-0000000000000000" id="adsenseMeta">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous" id="adsenseScript"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-bs-theme="dark"]'],
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            svGreen: {
+              DEFAULT: '#116d44',
+              hover: '#0e5c39',
+              light: '#ecfdf5',
+              border: '#059669',
+              badge: '#00B23B',
+            },
+            saffron: '#FF9933',
+            indiaGreen: '#138808'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* SignValid exact brand styles */
+    :root {
+      --sv-green: #116d44;
+      --sv-green-hover: #0d5434;
+      --sv-green-light: #f0fdf4;
+    }
+    [data-bs-theme="dark"] body {
+      background-color: #12161f;
+      color: #e2e8f0;
+    }
+    [data-bs-theme="light"] body {
+      background-color: #ffffff;
+      color: #212529;
+    }
+    .sv-hero {
+      background: linear-gradient(180deg, rgba(17, 109, 68, 0.04) 0%, rgba(255, 255, 255, 0) 100%);
+    }
+    [data-bs-theme="dark"] .sv-hero {
+      background: linear-gradient(180deg, rgba(17, 109, 68, 0.08) 0%, rgba(18, 22, 31, 0) 100%);
+    }
+    .sv-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+    .sv-chip-before {
+      background-color: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+    .sv-chip-after {
+      background-color: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    [data-bs-theme="dark"] .sv-chip-before {
+      background-color: #78350f40;
+      color: #fde68a;
+      border: 1px solid #92400e;
+    }
+    [data-bs-theme="dark"] .sv-chip-after {
+      background-color: #064e3b40;
+      color: #6ee7b7;
+      border: 1px solid #047857;
+    }
+    /* Smooth transitions */
+    * {
+      transition-property: background-color, border-color, color;
+      transition-duration: 0.1s;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-emerald-600 selection:text-white">
+
+  <!-- Top Announcement / Tricolor Line -->
+  <div class="h-1 bg-gradient-to-r from-amber-500 via-slate-200 to-emerald-600"></div>
+
+  <!-- Header -->
+  <header class="border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="/" class="flex items-center gap-2.5 text-decoration-none group">
+        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" aria-hidden="true" class="shrink-0 drop-shadow-sm group-hover:scale-105 transition transform">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M2 59L12.5 46L37 75.5L81 1L95.5 11.5L38 94.5L2 59Z" fill="#00B23B" stroke="black" stroke-width="2"></path>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M99 17L94 13.5L38 94.5L5.5 62.5L5 65L41 99.5L99 17Z" fill="black"></path>
+        </svg>
+        <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">SignValid</span>
+      </a>
+
+      <!-- Header Navigation Links -->
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+        <a href="#validate" class="text-emerald-700 dark:text-emerald-400 font-semibold hover:underline">Validate</a>
+        <a href="#documents" class="hover:text-slate-900 dark:hover:text-white">Documents</a>
+        <button id="openTrustStoreBtn" class="hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5">
+          <span>Trusted authorities</span>
+          <span id="rootsCountBadge" class="text-[10px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded-full font-mono text-slate-600 dark:text-slate-400">83</span>
+        </button>
+        <a href="#how-it-works" class="hover:text-slate-900 dark:hover:text-white">How it works</a>
+        <a href="#api" class="hover:text-slate-900 dark:hover:text-white">Free API</a>
+        <a href="#faq" class="hover:text-slate-900 dark:hover:text-white">FAQ</a>
+      </nav>
+
+      <!-- Theme & Action Controls -->
+      <div class="flex items-center gap-2.5">
+        <button id="openAdsenseBtn" title="Google AdSense Configuration" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60 font-semibold text-xs hover:bg-amber-100 transition">
+          <span class="w-2 h-2 rounded-full bg-amber-500" id="adsenseStatusDot"></span>
+          <span id="adsenseBtnLabel">AdSense Ads</span>
+        </button>
+
+        <button id="themeToggleBtn" aria-label="Toggle theme" class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+          <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+        </button>
+
+        <a href="#validate" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white shadow-sm transition hidden sm:inline-flex items-center gap-1">
+          <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+          <span>Validate PDF</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 w-full" id="main">
+
+    <!-- Hero Section -->
+    <section id="validate" class="sv-hero py-8 sm:py-12 border-b border-slate-200/80 dark:border-slate-800">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- Hero Title & Copy (Left 6 Cols) -->
+          <div class="lg:col-span-6 space-y-4">
+            <div>
+              <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+                Validate Indian government PDF signatures
+              </h1>
+              <p class="text-lg text-slate-600 dark:text-slate-400 mt-1 font-medium">
+                …and fix the yellow question mark for good.
+              </p>
+            </div>
+
+            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
+              SignValid checks the digital signature on <b>e-Aadhaar</b>, <b>birth/death certificates</b> from Rajasthan, Tamil Nadu, DigiLocker documents and PAN e-cards against India’s official <b>CCA trust hierarchy</b> — then gives you a display copy with a permanent <b>green tick</b> that is visible on any computer or printout.
+            </p>
+
+            <!-- 4 Trust Bullets with Green Check Icons -->
+            <ul class="space-y-2 text-xs sm:text-sm font-semibold text-emerald-900 dark:text-emerald-400 pt-1">
+              <li class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-emerald-800 text-white flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span>Free · no signup required</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-emerald-800 text-white flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span>Files are processed in memory and never stored</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-emerald-800 text-white flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span>Works in any viewer, browser, and on printouts</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-emerald-800 text-white flex items-center justify-center text-[10px] font-bold">✓</span>
+                <span>Validate single or batch PDFs at once</span>
+              </li>
+            </ul>
+
+            <!-- Before & After Chip Comparison -->
+            <div class="pt-2 flex flex-wrap items-center gap-3">
+              <span class="sv-chip sv-chip-before text-xs px-3 py-1">
+                ❓ Validity Unknown
+              </span>
+              <span class="text-slate-400 font-bold">&rarr;</span>
+              <span class="sv-chip sv-chip-after text-xs px-3 py-1">
+                ✔ Signature valid
+              </span>
+            </div>
+
+            <!-- Quick Preset Samples for 1-Click Verification -->
+            <div class="pt-3 border-t border-slate-200 dark:border-slate-800">
+              <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">Try with instant samples:</p>
+              <div class="flex flex-wrap gap-2">
+                <button class="sample-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 hover:bg-emerald-100 transition flex items-center gap-1.5" data-sample="vivan_birth_certificate_original_signed.pdf">
+                  <i data-lucide="award" class="w-3.5 h-3.5"></i> Vivan Birth Cert (Pehchan)
+                </button>
+                <button class="sample-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" data-sample="sample_signed_selfsigned.pdf">
+                  Self-Signed (Untrusted)
+                </button>
+                <button class="sample-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" data-sample="sample_encrypted_pass_demo123.pdf">
+                  e-Aadhaar Encrypted
+                </button>
+                <button class="sample-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" data-sample="sample_tampered.pdf">
+                  Tampered PDF
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Upload Dropzone Card (Right 6 Cols) -->
+          <div class="lg:col-span-6">
+            <div class="bg-white dark:bg-slate-900 rounded-2xl border-2 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
+              
+              <div class="p-6 sm:p-8">
+                <!-- Dropzone Box -->
+                <div id="dropZone" class="border-2 border-dashed border-emerald-600/50 hover:border-emerald-700 dark:border-emerald-500/50 dark:hover:border-emerald-400 bg-emerald-50/30 dark:bg-emerald-950/20 hover:bg-emerald-50/60 dark:hover:bg-emerald-950/40 rounded-xl p-8 text-center cursor-pointer transition group">
+                  <input type="file" id="pdfFileInput" multiple accept=".pdf,application/pdf" class="hidden">
+                  
+                  <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-emerald-100 dark:bg-emerald-900/60 flex items-center justify-center text-emerald-800 dark:text-emerald-300 group-hover:scale-110 transition">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M12 16V4m0 0-4 4m4-4 4 4" stroke="#116d44" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" stroke="#6c757d" stroke-width="2.2" stroke-linecap="round"></path>
+                    </svg>
+                  </div>
+
+                  <p class="text-lg font-bold text-slate-900 dark:text-white mb-1">
+                    Drop your PDFs here
+                  </p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">or</p>
+                  
+                  <button type="button" class="px-5 py-2 rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold shadow-md shadow-emerald-900/20 transition">
+                    Choose files
+                  </button>
+
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-4 leading-relaxed">
+                    e-Aadhaar, birth / income / community certificate, DigiLocker PDF, PAN e-card…
+                  </p>
+                  <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                    One PDF or many at once — up to 25 MB. Files are processed in memory and never stored.
+                  </p>
+                  <p class="text-[11px] text-emerald-800 dark:text-emerald-400 font-medium mt-2">
+                    Tip: you can also paste copied files here with Ctrl+V.
+                  </p>
+                </div>
+
+                <!-- Selected Files Queue -->
+                <div id="fileListContainer" class="mt-4 space-y-2 max-h-40 overflow-y-auto pr-1 hidden">
+                  <!-- Injected via JS -->
+                </div>
+
+                <!-- Password Input (Collapsible or visible) -->
+                <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <label for="pdfPasswordInput" class="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                      <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-500"></i>
+                      Document Password (if encrypted)
+                    </label>
+                    <span class="text-[10px] text-slate-500 dark:text-slate-400">e.g. e-Aadhaar: NAME + YEAR</span>
+                  </div>
+                  <div class="relative">
+                    <input type="password" id="pdfPasswordInput" placeholder="Enter password (e.g. e-Aadhaar password)..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-600">
+                    <button type="button" id="togglePasswordBtn" class="absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                      <i data-lucide="eye" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Validate Action Button -->
+                <button id="validateBtn" class="mt-5 w-full py-3 px-4 rounded-xl font-bold text-sm bg-emerald-800 hover:bg-emerald-900 text-white shadow-lg shadow-emerald-900/20 flex items-center justify-center gap-2 transition disabled:opacity-50">
+                  <i data-lucide="shield-check" class="w-5 h-5"></i>
+                  <span>Validate Document(s)</span>
+                </button>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Google AdSense Slot 1: Top Leaderboard / Responsive Banner -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-6">
+      <div class="p-2 sm:p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-center relative overflow-hidden shadow-xs">
+        <div class="text-[9px] uppercase tracking-widest font-bold text-slate-400 dark:text-slate-500 mb-1 flex items-center justify-center gap-1">
+          <span>Advertisement</span>
+          <span class="text-slate-300 dark:text-slate-700">&bull;</span>
+          <span>Google AdSense</span>
+        </div>
+        <div class="min-h-[90px] flex items-center justify-center overflow-hidden">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-0000000000000000"
+               data-ad-slot="1001001001"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <div class="adsense-preview-box text-xs text-slate-400 dark:text-slate-500 py-3 flex flex-wrap items-center justify-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            <span class="font-semibold text-slate-600 dark:text-slate-300">Google AdSense Top Banner Unit (728x90 / Responsive)</span>
+            <span class="text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 px-1.5 py-0.5 rounded font-mono">Auto Ads Active</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Section (Anchor) -->
+    <section id="results-anchor" class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+      
+      <!-- Loading State -->
+      <div id="loadingState" class="p-10 text-center rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 flex items-center justify-center animate-spin">
+          <i data-lucide="loader-2" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">Validating signature cryptographically...</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Verifying hash integrity, PKCS#7 container, and chaining to India's CCA Root.</p>
+      </div>
+
+      <!-- Results List Container -->
+      <div id="resultsList" class="space-y-6">
+        <!-- Injected upon validation -->
+      </div>
+
+      <!-- Google AdSense Slot 2: Mid-Content Native Responsive Unit -->
+      <div class="mt-8 pt-4">
+        <div class="text-[9px] uppercase tracking-widest font-bold text-slate-400 dark:text-slate-500 text-center mb-1 flex items-center justify-center gap-1">
+          <span>Sponsored Recommendation</span>
+          <span class="text-slate-300 dark:text-slate-700">&bull;</span>
+          <span>Google AdSense</span>
+        </div>
+        <div class="p-3 sm:p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-center relative overflow-hidden shadow-xs">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-0000000000000000"
+               data-ad-slot="2002002002"
+               data-ad-format="fluid"
+               data-ad-layout-key="-fb+5w+4e-db+86"></ins>
+          <div class="adsense-preview-box text-xs text-slate-400 dark:text-slate-500 py-4 flex flex-col items-center gap-1.5">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+              <span class="font-bold text-slate-700 dark:text-slate-200">Google AdSense In-Feed Native Unit</span>
+              <span class="text-[10px] bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">Matched Content</span>
+            </div>
+            <p class="text-[11px] text-slate-500 max-w-md">Displays relevant verification, digital signature token, and document compliance services.</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- "What you get" Section (SignValid Replica) -->
+    <section id="what-you-get" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
+      <div class="mb-6">
+        <p class="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-400 mb-1">What you get</p>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          A result is a verification report, not just a tick
+        </h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2 max-w-2xl">
+          Every result says what kind of document it is, shows the five checks in plain words, and names who vouches for whom up to the root.
+        </p>
+      </div>
+
+      <!-- Sample Report Mockup Card -->
+      <div class="bg-slate-50 dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8">
+        
+        <!-- Result Header -->
+        <div class="flex items-center gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+          <div class="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-lg">
+            ✓
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-emerald-800 dark:text-emerald-400">Signature valid</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400">The digital signature is genuine, and what it signed has not been changed.</p>
+          </div>
+        </div>
+
+        <!-- This Document Card -->
+        <div class="mt-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">This document</p>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">e-Aadhaar / Rajasthan Pehchan Birth Certificate</span>
+            <span class="text-xs text-slate-500 font-medium">Government of Rajasthan / UIDAI</span>
+          </div>
+          <p class="text-xs text-emerald-800 dark:text-emerald-400 font-semibold mt-2">
+            Signed by the authority this kind of document is issued by.
+          </p>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+            Recognised from its signature and file structure, never from what is printed on the page.
+          </p>
+        </div>
+
+        <!-- 5 Checks List -->
+        <div class="mt-6">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">What was checked</h4>
+          <ul class="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
+            <li class="flex items-start gap-2.5">
+              <span class="text-emerald-700 dark:text-emerald-400 font-bold">✓</span>
+              <div>
+                <span class="font-bold text-slate-900 dark:text-white">The file is unchanged since it was signed</span>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">Even a one-byte change breaks a digital signature on purpose — that is what makes it tamper-evident.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-emerald-700 dark:text-emerald-400 font-bold">✓</span>
+              <div>
+                <span class="font-bold text-slate-900 dark:text-white">The signature covers the whole document</span>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">A signature protects an exact stretch of bytes; anything outside it could have been added later.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-emerald-700 dark:text-emerald-400 font-bold">✓</span>
+              <div>
+                <span class="font-bold text-slate-900 dark:text-white">The certificate chain reaches the CCA India 2022 root</span>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">The signer is vouched for, step by step, up to the root operated by India’s Controller of Certifying Authorities.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-emerald-700 dark:text-emerald-400 font-bold">✓</span>
+              <div>
+                <span class="font-bold text-slate-900 dark:text-white">Signed while the certificate was valid</span>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">Signed within the valid time window by the document’s own clock.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-emerald-700 dark:text-emerald-400 font-bold">✓</span>
+              <div>
+                <span class="font-bold text-slate-900 dark:text-white">Revocation status evaluated</span>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">Soft-fail revocation mode ensures offline safety and uninterrupted results.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- "Why does Adobe show a yellow question mark?" Section -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
+        Why does Adobe show a yellow question mark?
+      </h2>
+      <div class="prose dark:prose-invert max-w-none text-sm text-slate-600 dark:text-slate-400 space-y-3 leading-relaxed">
+        <p>
+          The signature is usually fine. Adobe Reader simply does not know the authority that issued it, so it cannot finish the check and shows <b>“Validity Unknown”</b> or <b>“At least one signature has problems”</b> with a yellow question mark — even on a perfectly genuine document.
+        </p>
+        <p>
+          Indian government PDFs are signed with certificates that lead back to India’s own root, run by the <b>Controller of Certifying Authorities (CCA)</b>, through licensed certifying authorities such as eMudhra, (n)Code, Capricorn, Protean, SpeedSign and SafeScrypt. Adobe Reader trusts its own list, the Adobe Approved Trust List (AATL), and India’s root is not preloaded on it.
+        </p>
+        <p>
+          SignValid runs the full cryptographic check against the actual CCA India trust set, and then gives you a copy on which the result is visible everywhere — no Adobe configuration needed.
+        </p>
+      </div>
+    </section>
+
+    <!-- "How SignValid works" 3 Steps Section -->
+    <section id="how-it-works" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">
+        How SignValid works
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <div class="text-emerald-700 dark:text-emerald-400 font-mono text-sm font-bold mb-2">01 · UPLOAD</div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Drop your PDF</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            Drop your PDF (enter the password if it has one — it stays in memory and is never logged or stored).
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <div class="text-emerald-700 dark:text-emerald-400 font-mono text-sm font-bold mb-2">02 · REAL VALIDATION</div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Cryptographic check</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            We verify the signature cryptographically: integrity, the CCA India issuer chain, post-signing modifications, and revocation status.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <div class="text-emerald-700 dark:text-emerald-400 font-mono text-sm font-bold mb-2">03 · VERIFIED DISPLAY COPY</div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Download green tick copy</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            Only if every check passes, you get a copy showing the signature exactly as Adobe shows a validated one — green tick, signer and date.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- "Documents we support" Section -->
+    <section id="documents" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
+      <div class="mb-6">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Documents we support
+        </h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2 max-w-3xl leading-relaxed">
+          SignValid validates any PDF digitally signed under India’s CCA hierarchy. Each portal and state uses the same standard digital signature architecture under Section 35 of the IT Act.
+        </p>
+      </div>
+
+      <!-- Searchable document filter -->
+      <div class="mb-6">
+        <div class="relative max-w-md">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+          <input type="text" id="docSearchInput" placeholder="Find document or state (e.g. birth, Rajasthan, Aadhaar, Tamil Nadu)..." class="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-emerald-700">
+        </div>
+      </div>
+
+      <!-- Document Chips Grid -->
+      <div id="supportedDocsList" class="flex flex-wrap gap-2 text-xs">
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Rajasthan Pehchan Birth & Death Certificates
+        </span>
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> e-Aadhaar (UIDAI password-protected)
+        </span>
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Tamil Nadu e-District (Birth, Community, Income)
+        </span>
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> DigiLocker Documents (DL, RC, Marksheets)
+        </span>
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> GST Registration Certificates
+        </span>
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> e-PAN (Income Tax Department / NSDL)
+        </span>
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Form 16 / TDS Certificates
+        </span>
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Digital Gujarat Certificates
+        </span>
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Maharashtra Aaple Sarkar & HSC Marksheets
+        </span>
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Andhra Pradesh / Telangana MeeSeva Certificates
+        </span>
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Uttar Pradesh e-District Certificates
+        </span>
+        <span class="doc-chip px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 font-medium flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Bihar RTPS Certificates
+        </span>
+      </div>
+    </section>
+
+    <!-- "Who SignValid trusts" Section -->
+    <section id="trusted" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
+      <div class="bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/60 rounded-2xl p-6 sm:p-8">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Who SignValid trusts</h2>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-6 max-w-2xl leading-relaxed">
+          Every check ends at a root certificate operated by India’s Controller of Certifying Authorities. This is the store the validator checks against — the roots, the licensed authorities and their sub-authorities.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <p class="text-xs text-slate-500 dark:text-slate-400">Certificates in the store</p>
+            <p class="text-2xl font-extrabold text-emerald-800 dark:text-emerald-400 mt-1" id="statCertsCount">83</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <p class="text-xs text-slate-500 dark:text-slate-400">Current roots</p>
+            <p class="text-sm font-bold text-slate-900 dark:text-white mt-1">CCA India 2022 · 2022 SPL · 2014</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <p class="text-xs text-slate-500 dark:text-slate-400">Licensed authorities</p>
+            <p class="text-sm font-bold text-slate-900 dark:text-white mt-1">SpeedSign, eMudhra, Capricorn, CDAC, Protean...</p>
+          </div>
+        </div>
+
+        <button onclick="document.getElementById('openTrustStoreBtn').click()" class="text-xs font-bold text-emerald-800 dark:text-emerald-400 hover:underline flex items-center gap-1">
+          <span>See every certificate authority SignValid checks against &rarr;</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Free API & Developer Integration Section -->
+    <section id="api" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
+      <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-400 mb-1">Developer API</p>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Free REST API for PDF Signature Validation
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-2xl leading-relaxed">
+            Integrate Indian Government PDF validation and verified green-tick display copy generation into your apps, portals, or backend pipelines. 100% free with no API keys or signup required.
+          </p>
+        </div>
+        <a href="/docs" target="_blank" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white shadow-sm flex items-center gap-2 self-start shrink-0 transition">
+          <i data-lucide="external-link" class="w-4 h-4 text-emerald-400"></i>
+          <span>Interactive Swagger Docs (/docs)</span>
+        </a>
+      </div>
+
+      <!-- API Endpoints Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        
+        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded font-mono font-bold text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">POST</span>
+            <code class="font-mono text-slate-900 dark:text-white font-bold">/api/validate</code>
+          </div>
+          <p class="text-slate-600 dark:text-slate-400">Validate one or multiple PDFs against the 83 CCA India Root certificates. Returns JSON with mathematical integrity, CCA chain path, and verdict.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded font-mono font-bold text-[10px] bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">GET</span>
+            <code class="font-mono text-slate-900 dark:text-white font-bold">/api/download-verified/{sha256}</code>
+          </div>
+          <p class="text-slate-600 dark:text-slate-400">Download the verified display copy PDF featuring the Adobe Acrobat green checkmark mark and signer metadata overlaid at the signature rect.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded font-mono font-bold text-[10px] bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">GET</span>
+            <code class="font-mono text-slate-900 dark:text-white font-bold">/api/download-audit-cert/{sha256}</code>
+          </div>
+          <p class="text-slate-600 dark:text-slate-400">Download the official 1-page Cryptographic Audit Certificate PDF conforming to Section 35 of the Information Technology Act 2000.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="px-2 py-0.5 rounded font-mono font-bold text-[10px] bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">GET</span>
+            <code class="font-mono text-slate-900 dark:text-white font-bold">/api/roots</code>
+          </div>
+          <p class="text-slate-600 dark:text-slate-400">Returns JSON list of all 83 active CCA India Root & Licensed Sub-CA certificates, their public subjects, issuers, serials, and fingerprints.</p>
+        </div>
+
+      </div>
+
+      <!-- Quick Code Example -->
+      <div class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900 text-slate-100 text-xs font-mono">
+        <div class="px-4 py-2 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+          <span class="text-slate-400">cURL Example</span>
+          <span class="text-[10px] text-emerald-400 font-sans">No API Key Required</span>
+        </div>
+        <div class="p-4 overflow-x-auto text-[11px] leading-relaxed">
+          <pre><code># Validate any Indian Government signed PDF
+curl -X POST "${window.location.origin}/api/validate" \
+  -F "files=@vivan_birth_certificate.pdf" \
+  -F "offline=true"</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
+      <div class="mb-8">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Frequently asked questions
+        </h2>
+      </div>
+
+      <div class="space-y-4 max-w-3xl">
+        <details class="group bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-xs select-none">
+          <summary class="font-bold text-sm text-slate-900 dark:text-white cursor-pointer flex items-center justify-between">
+            <span>Is the downloaded copy digitally signed?</span>
+            <span class="group-open:rotate-180 transition font-mono">&#9662;</span>
+          </summary>
+          <p class="mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
+            No. It is a <b>verified display copy</b>: an image of your document showing the signature exactly as Adobe displays a validated one. The cryptographic signature lives in your original PDF, which remains the legally signed record — keep both files. The copy’s PDF properties record what it is, when it was verified and the original file’s SHA-256.
+          </p>
+        </details>
+
+        <details class="group bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-xs select-none">
+          <summary class="font-bold text-sm text-slate-900 dark:text-white cursor-pointer flex items-center justify-between">
+            <span>Do you store my documents?</span>
+            <span class="group-open:rotate-180 transition font-mono">&#9662;</span>
+          </summary>
+          <p class="mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
+            <b>No.</b> Files are processed in memory for the lifetime of the request and are gone when the response is sent. We never store, log or index document contents, Aadhaar numbers, filenames or passwords.
+          </p>
+        </details>
+
+        <details class="group bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-xs select-none">
+          <summary class="font-bold text-sm text-slate-900 dark:text-white cursor-pointer flex items-center justify-between">
+            <span>Why does Adobe show “Validity Unknown” on a genuine document?</span>
+            <span class="group-open:rotate-180 transition font-mono">&#9662;</span>
+          </summary>
+          <p class="mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
+            Adobe trusts the AATL list, which does not include India’s CCA root — so it cannot finish the trust chain even on authentic documents. Validate the document here to get the real verdict and a display copy whose tick is visible in any viewer.
+          </p>
+        </details>
+
+        <details class="group bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-xs select-none">
+          <summary class="font-bold text-sm text-slate-900 dark:text-white cursor-pointer flex items-center justify-between">
+            <span>Validation failed but I believe the document is genuine. Now what?</span>
+            <span class="group-open:rotate-180 transition font-mono">&#9662;</span>
+          </summary>
+          <p class="mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
+            First re-download a fresh copy from the issuing portal and validate that — many failures are corrupted or "Printed to PDF" flattened files. If a file was saved via virtual printer, the cryptographic signature was stripped. Upload the original direct download.
+          </p>
+        </details>
+
+        <details class="group bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-xs select-none">
+          <summary class="font-bold text-sm text-slate-900 dark:text-white cursor-pointer flex items-center justify-between">
+            <span>Is SignValid a government service?</span>
+            <span class="group-open:rotate-180 transition font-mono">&#9662;</span>
+          </summary>
+          <p class="mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
+            No. SignValid is an independent validation tool and is not affiliated with UIDAI, the Government of India, or any state government. It verifies signatures issued under the public CCA trust hierarchy under the IT Act 2000.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Google AdSense Slot 3: Bottom Horizontal Unit -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 my-10">
+      <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-center relative overflow-hidden shadow-xs">
+        <div class="text-[9px] uppercase tracking-widest font-bold text-slate-400 dark:text-slate-500 mb-1 flex items-center justify-center gap-1">
+          <span>Advertisement</span>
+          <span class="text-slate-300 dark:text-slate-700">&bull;</span>
+          <span>Google AdSense</span>
+        </div>
+        <div class="min-h-[90px] flex items-center justify-center overflow-hidden">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-0000000000000000"
+               data-ad-slot="3003003003"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <div class="adsense-preview-box text-xs text-slate-400 dark:text-slate-500 py-3 flex flex-wrap items-center justify-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+            <span class="font-semibold text-slate-600 dark:text-slate-300">Google AdSense Bottom Leaderboard (728x90 / 970x90 / Mobile 300x250)</span>
+            <span class="text-[10px] bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">Auto Responsive</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Trust Store Modal -->
+  <div id="trustStoreModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <svg width="20" height="20" viewBox="0 0 100 100" fill="none"><path d="M2 59L12.5 46L37 75.5L81 1L95.5 11.5L38 94.5L2 59Z" fill="#00B23B" stroke="black"></path></svg>
+          Trusted Certificate Authorities (CCA India)
+        </h3>
+        <button id="closeTrustStoreBtn" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="px-6 py-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex flex-wrap items-center justify-between gap-3">
+        <input type="text" id="certSearchInput" placeholder="Filter by authority name (e.g. SpeedSign, eMudhra, Capricorn)..." class="flex-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs">
+        <button id="syncRootsBtn" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-800 text-white hover:bg-emerald-900 transition flex items-center gap-1.5">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Sync cca.gov.in
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-6 space-y-2" id="certsTableBody">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Google AdSense Configuration Modal -->
+  <div id="adsenseModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 flex items-center justify-center font-bold">
+            <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.4z"/></svg>
+          </div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white">Google AdSense Setup & Monetization</h3>
+        </div>
+        <button id="closeAdsenseBtn" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-800 dark:text-slate-200 mb-1">Your AdSense Publisher ID</label>
+          <input type="text" id="adsensePubInput" placeholder="ca-pub-1234567890123456" class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl font-mono text-xs text-slate-900 dark:text-white focus:outline-none focus:border-amber-600">
+          <p class="text-[11px] text-slate-500 mt-1">Found in your Google AdSense Dashboard &rarr; Account &rarr; Settings &rarr; Account information.</p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 space-y-2">
+          <div class="font-bold text-amber-900 dark:text-amber-200 flex items-center gap-1.5">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-600"></i>
+            <span>3 Simple Steps to Start Running Ads</span>
+          </div>
+          <ol class="list-decimal list-inside space-y-1 text-slate-700 dark:text-slate-300 text-[11px]">
+            <li>Enter your <b>ca-pub-XXXXXXXXXXXXXXXX</b> above and click <b>Save & Connect</b>.</li>
+            <li>We automatically update <a href="/ads.txt" target="_blank" class="text-emerald-700 dark:text-emerald-400 font-bold underline font-mono">/ads.txt</a> so Google crawler validates your domain immediately.</li>
+            <li>Add this site URL to Google AdSense &rarr; Sites to start displaying live advertisements.</li>
+          </ol>
+        </div>
+
+        <div class="pt-2 flex items-center justify-between gap-3">
+          <a href="/ads.txt" target="_blank" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:underline flex items-center gap-1">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Open /ads.txt
+          </a>
+          <button id="saveAdsenseBtn" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white shadow-sm transition flex items-center gap-1.5">
+            <i data-lucide="check" class="w-4 h-4"></i> Save & Connect AdSense
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 dark:border-slate-800 py-8 bg-slate-50 dark:bg-slate-950 text-xs text-slate-500 dark:text-slate-400 mt-auto">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+        <span>SignValid &bull; Verifies signatures under the Controller of Certifying Authorities (CCA) India PKI</span>
+      </div>
+      <div>
+        <span>Files are processed in memory and never stored.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    // Initialize Icons
+    lucide.createIcons();
+
+    // Theme Toggle
+    const themeBtn = document.getElementById('themeToggleBtn');
+    themeBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-bs-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-bs-theme', next);
+      localStorage.setItem('sv-theme', next);
+    });
+
+    if (localStorage.getItem('sv-theme')) {
+      document.documentElement.setAttribute('data-bs-theme', localStorage.getItem('sv-theme'));
+    }
+
+    // State
+    let selectedFiles = [];
+    let loadedCerts = [];
+
+    // Elements
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('pdfFileInput');
+    const fileListContainer = document.getElementById('fileListContainer');
+    const passwordInput = document.getElementById('pdfPasswordInput');
+    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+    const validateBtn = document.getElementById('validateBtn');
+    const loadingState = document.getElementById('loadingState');
+    const resultsList = document.getElementById('resultsList');
+    const trustStoreModal = document.getElementById('trustStoreModal');
+    const openTrustStoreBtn = document.getElementById('openTrustStoreBtn');
+    const closeTrustStoreBtn = document.getElementById('closeTrustStoreBtn');
+    const certSearchInput = document.getElementById('certSearchInput');
+    const certsTableBody = document.getElementById('certsTableBody');
+    const rootsCountBadge = document.getElementById('rootsCountBadge');
+    const statCertsCount = document.getElementById('statCertsCount');
+    const syncRootsBtn = document.getElementById('syncRootsBtn');
+
+    // Toggle Password Visibility
+    togglePasswordBtn.addEventListener('click', () => {
+      const isPass = passwordInput.type === 'password';
+      passwordInput.type = isPass ? 'text' : 'password';
+      togglePasswordBtn.innerHTML = isPass ? '<i data-lucide="eye-off" class="w-4 h-4"></i>' : '<i data-lucide="eye" class="w-4 h-4"></i>';
+      lucide.createIcons();
+    });
+
+    // Dropzone Events
+    dropZone.addEventListener('click', () => fileInput.click());
+    
+    ['dragenter', 'dragover'].forEach(name => {
+      dropZone.addEventListener(name, (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-emerald-700', 'bg-emerald-100/40');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(name => {
+      dropZone.addEventListener(name, (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-emerald-700', 'bg-emerald-100/40');
+      });
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      const files = Array.from(e.dataTransfer.files).filter(f => f.name.toLowerCase().endsWith('.pdf'));
+      if (files.length) {
+        addFiles(files);
+        startValidation();
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      const files = Array.from(fileInput.files);
+      fileInput.value = '';
+      if (files.length) {
+        addFiles(files);
+        startValidation();
+      }
+    });
+
+    // Ctrl+V Paste File Support (Exactly like SignValid)
+    window.addEventListener('paste', (e) => {
+      const items = e.clipboardData ? e.clipboardData.items : [];
+      const pdfs = [];
+      for (let item of items) {
+        if (item.kind === 'file') {
+          const f = item.getAsFile();
+          if (f && f.name.toLowerCase().endsWith('.pdf')) {
+            pdfs.push(f);
+          }
+        }
+      }
+      if (pdfs.length) {
+        addFiles(pdfs);
+        startValidation();
+      }
+    });
+
+    function addFiles(files) {
+      selectedFiles = [...selectedFiles, ...files];
+      renderSelectedFiles();
+    }
+
+    function removeFile(index) {
+      selectedFiles.splice(index, 1);
+      renderSelectedFiles();
+    }
+
+    function formatBytes(bytes) {
+      if (!bytes) return '0 B';
+      const k = 1024;
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+
+    function renderSelectedFiles() {
+      if (selectedFiles.length === 0) {
+        fileListContainer.classList.add('hidden');
+        fileListContainer.innerHTML = '';
+        return;
+      }
+
+      fileListContainer.classList.remove('hidden');
+      fileListContainer.innerHTML = selectedFiles.map((file, i) => `
+        <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs">
+          <div class="flex items-center gap-2 truncate pr-2">
+            <i data-lucide="file" class="w-4 h-4 text-emerald-700 dark:text-emerald-400 shrink-0"></i>
+            <span class="text-slate-800 dark:text-slate-200 truncate font-semibold">${file.name}</span>
+            <span class="text-slate-400 font-mono text-[10px]">(${formatBytes(file.size)})</span>
+          </div>
+          <button onclick="removeFile(${i})" class="text-slate-400 hover:text-red-500 transition p-1">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      `).join('');
+
+      lucide.createIcons();
+    }
+
+    // Sample buttons
+    document.querySelectorAll('.sample-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const sample = btn.getAttribute('data-sample');
+        await validateSampleDirectly(sample);
+      });
+    });
+
+    async function validateSampleDirectly(filename) {
+      loadingState.classList.remove('hidden');
+      resultsList.innerHTML = '';
+      
+      // Scroll to results
+      document.getElementById('results-anchor').scrollIntoView({ behavior: 'smooth' });
+
+      try {
+        const formData = new FormData();
+        const pw = passwordInput.value || (filename.includes('encrypted') ? 'demo123' : '');
+        formData.append('password', pw);
+        formData.append('offline', 'true');
+
+        const resp = await fetch(`/api/samples/${filename}/validate`, {
+          method: 'POST',
+          body: formData
+        });
+        const data = await resp.json();
+        renderResults(data);
+      } catch (err) {
+        alert('Validation failed: ' + err.message);
+      } finally {
+        loadingState.classList.add('hidden');
+      }
+    }
+
+    // Validate action
+    async function startValidation() {
+      if (selectedFiles.length === 0) {
+        alert('Please select or drop at least one PDF file.');
+        return;
+      }
+
+      loadingState.classList.remove('hidden');
+      resultsList.innerHTML = '';
+      document.getElementById('results-anchor').scrollIntoView({ behavior: 'smooth' });
+
+      try {
+        const formData = new FormData();
+        selectedFiles.forEach(f => formData.append('files', f));
+        if (passwordInput.value) {
+          formData.append('password', passwordInput.value);
+        }
+        formData.append('offline', 'true');
+        formData.append('trust_system', 'false');
+
+        const resp = await fetch('/api/validate', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await resp.json();
+        renderResults(data);
+      } catch (err) {
+        alert('Validation error: ' + err.message);
+      } finally {
+        loadingState.classList.add('hidden');
+      }
+    }
+
+    validateBtn.addEventListener('click', startValidation);
+
+    // Explicitly expose functions for inline HTML event handlers
+    window.removeFile = removeFile;
+    window.validateSampleDirectly = validateSampleDirectly;
+    window.startValidation = startValidation;
+
+    // Track validated items in memory map for reliable export
+    let currentResultsMap = {};
+
+    // Render results matching SignValid exact cards
+    function renderResults(results) {
+      if (!results) return;
+
+      // Handle server error responses gracefully
+      if (!Array.isArray(results)) {
+        if (results.detail || results.error) {
+          resultsList.innerHTML = `
+            <div class="p-5 rounded-2xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-400 font-medium text-xs flex items-center gap-3">
+              <i data-lucide="alert-octagon" class="w-6 h-6 shrink-0"></i>
+              <div>
+                <p class="font-bold text-sm">Validation Error</p>
+                <p class="mt-0.5">${results.detail || results.error}</p>
+              </div>
+            </div>`;
+          lucide.createIcons();
+          return;
+        }
+        results = [results];
+      }
+
+      if (results.length === 0) return;
+
+      currentResultsMap = {};
+      results.forEach((item, idx) => {
+        const key = item.sha256 || ('res_' + idx);
+        currentResultsMap[key] = item;
+      });
+
+      resultsList.innerHTML = results.map((item, idx) => buildSignValidResultHtml(item, idx)).join('');
+      lucide.createIcons();
+    }
+
+    function buildSignValidResultHtml(item, idx) {
+      const itemKey = item.sha256 || ('res_' + idx);
+      const isGenuine = (item.verdict === 'VERIFIED_GENUINE' || item.verdict === 'SIGNVALID_DISPLAY_COPY');
+      const isFlattened = (item.verdict === 'FLATTENED_SIGNATURE');
+      const sigs = item.signatures || [];
+      const firstSig = sigs[0] || {};
+      const cert = firstSig.cert_info || {};
+
+      let statusTitle = "Signature valid";
+      let statusSubtitle = "The digital signature is genuine, and what it signed has not been changed.";
+      let statusClass = "text-emerald-800 dark:text-emerald-400";
+      let iconSvg = `
+        <svg width="28" height="28" viewBox="0 0 100 100" fill="none" class="shrink-0">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M2 59L12.5 46L37 75.5L81 1L95.5 11.5L38 94.5L2 59Z" fill="#00B23B" stroke="black" stroke-width="2"></path>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M99 17L94 13.5L38 94.5L5.5 62.5L5 65L41 99.5L99 17Z" fill="black"></path>
+        </svg>
+      `;
+
+      if (!isGenuine) {
+        if (item.verdict === 'SCANNED_DOCUMENT') {
+          statusTitle = "Scanned / Flattened Image (No Cryptographic Data)";
+          statusSubtitle = "This file contains only scanned bitmap images. Scanning, photographing, or saving as an image strips the underlying cryptographic digital signature data.";
+          statusClass = "text-amber-800 dark:text-amber-400";
+          iconSvg = `<i data-lucide="camera" class="w-7 h-7 text-amber-500"></i>`;
+        } else if (isFlattened) {
+          statusTitle = "Flattened copy — no digital signature";
+          statusSubtitle = "This file was saved via 'Print to PDF' or scanned. The visual box is just an image, but the cryptographic signature container was removed.";
+          statusClass = "text-amber-800 dark:text-amber-400";
+          iconSvg = `<i data-lucide="alert-triangle" class="w-7 h-7 text-amber-500"></i>`;
+        } else if (item.verdict === 'UNTRUSTED_ISSUER') {
+          statusTitle = "Signature intact, but authority untrusted";
+          statusSubtitle = "The signature math is valid and unaltered, but does not chain to the official CCA India Root.";
+          statusClass = "text-amber-800 dark:text-amber-400";
+          iconSvg = `<i data-lucide="shield-alert" class="w-7 h-7 text-amber-500"></i>`;
+        } else if (item.verdict === 'PASSWORD_REQUIRED') {
+          statusTitle = "Password required";
+          statusSubtitle = "This document is encrypted. Please enter the password (e.g. e-Aadhaar password) to validate.";
+          statusClass = "text-amber-800 dark:text-amber-400";
+          iconSvg = `<i data-lucide="lock" class="w-7 h-7 text-amber-500"></i>`;
+        } else {
+          statusTitle = item.verdict_title || "Signature could not be validated";
+          statusSubtitle = item.verdict_description || "The document has failed integrity checks.";
+          statusClass = "text-red-700 dark:text-red-400";
+          iconSvg = `<i data-lucide="alert-octagon" class="w-7 h-7 text-red-500"></i>`;
+        }
+      } else if (item.verdict === 'SIGNVALID_DISPLAY_COPY') {
+        statusTitle = "SignValid verified display copy";
+        statusSubtitle = "This document is an authentic verified display copy generated by SignValid. The original digital signature was validated against India's CCA Root Trust Store.";
+      }
+
+      // Date formatting
+      let dateDisplay = "Not Reported";
+      if (firstSig.signed_at) {
+        try {
+          const d = new Date(firstSig.signed_at);
+          dateDisplay = d.toLocaleString();
+        } catch (e) {
+          dateDisplay = firstSig.signed_at;
+        }
+      }
+
+      return `
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm">
+          
+          <!-- Top Verdict Card -->
+          <div class="p-5 rounded-2xl ${isGenuine ? 'bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/80' : 'bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800'}">
+            <div class="flex items-center gap-3">
+              ${iconSvg}
+              <div>
+                <h3 class="text-xl sm:text-2xl font-extrabold ${statusClass}">
+                  ${statusTitle}
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-0.5 font-medium">
+                  ${statusSubtitle}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Document Info -->
+          <div class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">This document</p>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white">
+                ${item.file}
+              </span>
+              <span class="text-[11px] font-mono text-slate-500">SHA-256: ${item.sha256 ? item.sha256.substring(0, 16) + '...' : 'N/A'}</span>
+            </div>
+            ${firstSig.signer_name ? `
+              <p class="text-xs font-semibold text-slate-900 dark:text-white mt-2">
+                Signed by <span class="text-emerald-800 dark:text-emerald-400 font-bold">${firstSig.signer_name}</span> ${cert.subject_o ? '· ' + cert.subject_o : ''}
+              </p>
+            ` : ''}
+            ${item.sample_hint ? `
+              <div class="mt-3 p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-800 flex flex-wrap items-center justify-between gap-2">
+                <div class="text-xs text-emerald-900 dark:text-emerald-200">
+                  <span class="font-bold">Original digital certificate detected:</span> We have the genuine signed PDF for this document.
+                </div>
+                <button onclick="validateSampleDirectly('${item.sample_hint}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white shadow-sm flex items-center gap-1.5 transition shrink-0">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                  <span>${item.sample_hint_title || 'Validate Original Signed Copy'}</span>
+                </button>
+              </div>
+            ` : ''}
+          </div>
+
+          ${sigs.length > 0 ? `
+            <!-- What Was Checked (The 5 Checks) -->
+            <div class="mt-6">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">What was checked</h4>
+              <ul class="space-y-3 text-xs text-slate-700 dark:text-slate-300">
+                <li class="flex items-start gap-2.5">
+                  <span class="${firstSig.intact ? 'text-emerald-700 dark:text-emerald-400' : 'text-red-500'} font-bold">${firstSig.intact ? '✓' : '✗'}</span>
+                  <div>
+                    <span class="font-bold text-slate-900 dark:text-white">${firstSig.intact ? 'The file is unchanged since it was signed' : 'The file has been modified or altered after signing'}</span>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Even a one-byte change breaks a digital signature on purpose — that is what makes it tamper-evident.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="${firstSig.covers_whole_document === 'ENTIRE_FILE' ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-500'} font-bold">${firstSig.covers_whole_document === 'ENTIRE_FILE' ? '✓' : '⚠'}</span>
+                  <div>
+                    <span class="font-bold text-slate-900 dark:text-white">The signature covers the whole document</span>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Coverage: ${firstSig.covers_whole_document || 'ENTIRE_FILE'}. A signature protects an exact stretch of bytes.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="${firstSig.trusted ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-500'} font-bold">${firstSig.trusted ? '✓' : '✗'}</span>
+                  <div>
+                    <span class="font-bold text-slate-900 dark:text-white">${firstSig.trusted ? 'The certificate chain reaches the CCA India 2022 root' : 'The certificate chain does not reach an official CCA India root'}</span>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">${firstSig.trusted ? 'The signer is vouched for, step by step, up to the root operated by India’s Controller of Certifying Authorities.' : 'This certificate was issued by an untrusted or self-signed authority not recognized by the CCA.'}</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="${firstSig.valid ? 'text-emerald-700 dark:text-emerald-400' : 'text-red-500'} font-bold">${firstSig.valid ? '✓' : '✗'}</span>
+                  <div>
+                    <span class="font-bold text-slate-900 dark:text-white">Signed while the certificate was valid</span>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Signed on ${dateDisplay} by the document’s own clock.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Who vouches for whom (Chain Tree) -->
+            <div class="mt-6">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">Who vouches for whom</h4>
+              <div class="space-y-2 text-xs">
+                
+                <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                  <div>
+                    <span class="text-[10px] font-bold text-slate-500 uppercase block">Signer</span>
+                    <span class="font-bold text-slate-900 dark:text-white">${firstSig.signer_name}</span>
+                  </div>
+                  <span class="text-[11px] font-mono text-slate-500">Serial: ${cert.serial_number || 'N/A'}</span>
+                </div>
+
+                ${cert.issuer_cn ? `
+                  <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                    <div>
+                      <span class="text-[10px] font-bold text-slate-500 uppercase block">Sub-authority</span>
+                      <span class="font-bold text-slate-900 dark:text-white">${cert.issuer_cn}</span>
+                    </div>
+                    <span class="text-[11px] ${firstSig.trusted ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'} font-semibold">${firstSig.trusted ? 'on the trusted list' : 'not on trusted list'}</span>
+                  </div>
+                ` : ''}
+
+                ${firstSig.trusted ? `
+                  <div class="p-3 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/80 flex items-center justify-between">
+                    <div>
+                      <span class="text-[10px] font-bold text-emerald-800 dark:text-emerald-400 uppercase block">Root Authority</span>
+                      <span class="font-bold text-slate-900 dark:text-white">CCA India 2022</span>
+                      <p class="text-[10px] text-slate-500 dark:text-slate-400">Operated by the Controller of Certifying Authorities, Government of India.</p>
+                    </div>
+                    <span class="text-[11px] text-emerald-800 dark:text-emerald-400 font-bold">RCAI Root</span>
+                  </div>
+                ` : `
+                  <div class="p-3 rounded-lg bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/80 flex items-center justify-between">
+                    <div>
+                      <span class="text-[10px] font-bold text-amber-800 dark:text-amber-400 uppercase block">Root Authority</span>
+                      <span class="font-bold text-slate-900 dark:text-white">Untrusted / Self-Signed Root</span>
+                      <p class="text-[10px] text-slate-500 dark:text-slate-400">Does not reach India’s Controller of Certifying Authorities (CCA) Root Trust Store.</p>
+                    </div>
+                    <span class="text-[11px] text-amber-700 dark:text-amber-400 font-bold">Not in Trust Store</span>
+                  </div>
+                `}
+
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Action & Download Buttons Bar (Exactly like SignValid) -->
+          <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+            <span class="text-xs font-semibold text-slate-500">Download results:</span>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+              ${isGenuine ? `
+                <a href="/api/download-verified/${item.sha256}" download class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white shadow-md shadow-emerald-900/20 flex items-center gap-2 transition">
+                  <svg width="16" height="16" viewBox="0 0 100 100" fill="none"><path d="M2 59L12.5 46L37 75.5L81 1L95.5 11.5L38 94.5L2 59Z" fill="#00B23B" stroke="white" stroke-width="4"></path></svg>
+                  <span>Download verified display copy</span>
+                  <span class="text-[9px] bg-emerald-950 px-1 py-0.2 rounded font-mono">Green Tick</span>
+                </a>
+
+                <a href="/api/download-audit-cert/${item.sha256}" download class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white shadow-sm flex items-center gap-2 transition">
+                  <i data-lucide="award" class="w-4 h-4 text-sky-400"></i>
+                  <span>Download Audit Certificate (PDF)</span>
+                </a>
+              ` : `
+                ${item.sha256 ? `
+                  <a href="/api/download-audit-cert/${item.sha256}" download class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 flex items-center gap-1.5 transition">
+                    <i data-lucide="award" class="w-4 h-4 text-sky-500"></i>
+                    <span>Verification Certificate (PDF)</span>
+                  </a>
+                ` : ''}
+              `}
+
+              <button onclick="downloadJsonReportByKey('${itemKey}')" class="px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center gap-1.5 transition">
+                <i data-lucide="code" class="w-3.5 h-3.5"></i>
+                <span>JSON</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      `;
+    }
+
+    window.downloadJsonReportByKey = function(key) {
+      const data = currentResultsMap[key];
+      if (!data) return;
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `SignValid_${data.file || 'report'}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    // Filter documents in directory
+    const docSearchInput = document.getElementById('docSearchInput');
+    docSearchInput.addEventListener('input', () => {
+      const q = docSearchInput.value.toLowerCase().trim();
+      document.querySelectorAll('#supportedDocsList .doc-chip').forEach(chip => {
+        const text = chip.textContent.toLowerCase();
+        chip.style.display = text.includes(q) ? 'inline-flex' : 'none';
+      });
+    });
+
+    // Trust Store Modal
+    openTrustStoreBtn.addEventListener('click', () => trustStoreModal.classList.remove('hidden'));
+    closeTrustStoreBtn.addEventListener('click', () => trustStoreModal.classList.add('hidden'));
+
+    async function loadTrustStore() {
+      try {
+        const resp = await fetch('/api/roots');
+        const data = await resp.json();
+        loadedCerts = data.certificates || [];
+        rootsCountBadge.textContent = `${data.total}`;
+        statCertsCount.textContent = `${data.total}`;
+        renderCertsTable(loadedCerts);
+      } catch (e) {
+        rootsCountBadge.textContent = '!';
+      }
+    }
+
+    function renderCertsTable(certs) {
+      if (!certs.length) {
+        certsTableBody.innerHTML = '<p class="text-center text-slate-400 py-6 text-xs">No certificates found matching filter.</p>';
+        return;
+      }
+
+      certsTableBody.innerHTML = certs.map(c => `
+        <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-1.5 py-0.2 rounded text-[10px] font-mono ${c.is_root ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300'} font-bold">
+                ${c.is_root ? 'ROOT CA' : 'SUB-CA'}
+              </span>
+              <span class="font-bold text-slate-900 dark:text-white truncate">${c.subject}</span>
+            </div>
+            <p class="text-slate-500 text-[11px] mt-0.5 truncate">Issuer: ${c.issuer}</p>
+          </div>
+          <span class="text-[10px] font-mono text-slate-400">${c.serial_number}</span>
+        </div>
+      `).join('');
+    }
+
+    certSearchInput.addEventListener('input', () => {
+      const q = certSearchInput.value.toLowerCase().trim();
+      const filtered = loadedCerts.filter(c => (c.subject && c.subject.toLowerCase().includes(q)) || (c.issuer && c.issuer.toLowerCase().includes(q)));
+      renderCertsTable(filtered);
+    });
+
+    syncRootsBtn.addEventListener('click', async () => {
+      syncRootsBtn.disabled = true;
+      try {
+        await fetch('/api/roots/sync', { method: 'POST' });
+        await loadTrustStore();
+        alert('Sync complete!');
+      } catch (e) {
+        alert('Sync failed: ' + e.message);
+      } finally {
+        syncRootsBtn.disabled = false;
+      }
+    });
+
+    // Google AdSense Setup Logic
+    const adsenseModal = document.getElementById('adsenseModal');
+    const openAdsenseBtn = document.getElementById('openAdsenseBtn');
+    const closeAdsenseBtn = document.getElementById('closeAdsenseBtn');
+    const adsensePubInput = document.getElementById('adsensePubInput');
+    const saveAdsenseBtn = document.getElementById('saveAdsenseBtn');
+    const adsenseStatusDot = document.getElementById('adsenseStatusDot');
+    const adsenseBtnLabel = document.getElementById('adsenseBtnLabel');
+
+    function initAdSense() {
+      const savedPub = localStorage.getItem('adsense_pub_id') || 'ca-pub-0000000000000000';
+      adsensePubInput.value = savedPub;
+
+      if (savedPub && savedPub !== 'ca-pub-0000000000000000') {
+        adsenseStatusDot.classList.replace('bg-amber-500', 'bg-emerald-500');
+        adsenseBtnLabel.textContent = 'AdSense Connected';
+        
+        // Update tags
+        const metaTag = document.getElementById('adsenseMeta');
+        if (metaTag) metaTag.setAttribute('content', savedPub);
+
+        const scriptTag = document.getElementById('adsenseScript');
+        if (scriptTag) scriptTag.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${savedPub}`;
+
+        // Update all ad slots
+        document.querySelectorAll('ins.adsbygoogle').forEach(ins => {
+          ins.setAttribute('data-ad-client', savedPub);
+        });
+
+        // Trigger Google AdSense
+        try {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {}
+      }
+    }
+
+    openAdsenseBtn.addEventListener('click', () => adsenseModal.classList.remove('hidden'));
+    closeAdsenseBtn.addEventListener('click', () => adsenseModal.classList.add('hidden'));
+
+    saveAdsenseBtn.addEventListener('click', async () => {
+      let pub = adsensePubInput.value.trim();
+      if (!pub) {
+        alert('Please enter a valid Google AdSense Publisher ID (e.g. ca-pub-1234567890123456)');
+        return;
+      }
+      if (!pub.startsWith('ca-pub-') && !pub.startsWith('pub-')) {
+        pub = 'ca-pub-' + pub;
+      }
+      saveAdsenseBtn.disabled = true;
+      try {
+        const formData = new FormData();
+        formData.append('pub_id', pub);
+        const resp = await fetch('/api/adsense/save', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await resp.json();
+        if (data.success) {
+          localStorage.setItem('adsense_pub_id', pub);
+          initAdSense();
+          adsenseModal.classList.add('hidden');
+          alert('Google AdSense connected successfully!\n/ads.txt updated and ad slots configured.');
+        } else {
+          alert('Failed to update ads.txt');
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      } finally {
+        saveAdsenseBtn.disabled = false;
+      }
+    });
+
+    initAdSense();
+
+    // Initial load
+    loadTrustStore();
+  </script>
+</body>
+</html>
