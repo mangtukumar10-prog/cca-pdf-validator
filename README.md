@@ -1,8 +1,10 @@
 # CCA India PDF Signature Validator
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/mangtukumar10-prog/cca-pdf-validator)
+
 A full-featured web application and command-line tool for verifying PDF digital signatures against the official **Controller of Certifying Authorities (CCA)** India Public Key Infrastructure (PKI) trust set (under Section 35 of the Information Technology Act 2000).
 
-Includes 62 pre-bundled and normalized official CCA India Root Certificates (CCA India 2022, 2022 SPL, 2015, 2014, 2011, 2007) and licensed Certifying Authorities' intermediate certificates (e-Mudhra, Capricorn, (n)Code, C-DAC, Protean/NSDL, IDRBT, SafeScrypt, CDSL, RajComp, VSign, PantaSign, etc.).
+Includes 83 pre-bundled and normalized official CCA India Root Certificates (CCA India 2022, 2022 SPL, 2015, 2014, 2011, 2007) and licensed Certifying Authorities' intermediate certificates (e-Mudhra, Capricorn, (n)Code, C-DAC, Protean/NSDL, IDRBT, SafeScrypt, CDSL, RajComp, VSign, PantaSign, etc.). Includes full Google AdSense monetization integration, Adobe Acrobat green tick mark stamping, and Section 5 IT Act 2000 legal audit reports.
 
 ---
 
