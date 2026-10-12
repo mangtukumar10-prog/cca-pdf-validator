@@ -11,6 +11,7 @@ from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Response
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 import uvicorn
 
 from validator import global_store, validate_pdf_data, parse_cert_info, ROOTS_DIR
@@ -31,6 +32,7 @@ app = FastAPI(
     version="2.0.0"
 )
 
+app.add_middleware(GZipMiddleware, minimum_size=500)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -122,7 +124,14 @@ async def serve_index():
     index_file = os.path.join(STATIC_DIR, "index.html")
     if os.path.exists(index_file):
         with open(index_file, "r", encoding="utf-8") as f:
-            return f.read()
+            content = f.read()
+        return HTMLResponse(
+            content=content,
+            headers={
+                "Cache-Control": "public, max-age=300, s-maxage=600, stale-while-revalidate=86400",
+                "X-Robots-Tag": "index, follow"
+            }
+        )
     return "<h1>CCA India PDF Signature Validator</h1><p>Static index.html not found.</p>"
 
 @app.get("/api/health")

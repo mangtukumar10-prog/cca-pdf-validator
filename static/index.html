@@ -16,14 +16,77 @@
   <meta name="google-adsense-account" content="ca-pub-1369869894707122" id="adsenseMeta">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1369869894707122" crossorigin="anonymous" id="adsenseScript"></script>
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <meta name="theme-color" content="#116d44">
+  <meta name="color-scheme" content="light dark">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Open Graph & Social Cards for Web & AI Bots -->
+  <meta property="og:title" content="SignValid — Validate Indian Government PDF Signatures Online">
+  <meta property="og:description" content="Check digital signatures on e-Aadhaar, Rajasthan Pehchan, DigiLocker, and PAN PDFs against official Indian CCA roots. Download verified copy with Adobe green checkmark.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cca-pdf-validator.onrender.com/">
+  <meta property="og:image" content="https://cca-pdf-validator.onrender.com/static/logo.jpg">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Schema.org Structured Data (Agentic Browsing & Semantic Search) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://cca-pdf-validator.onrender.com/#app",
+        "name": "SignValid",
+        "url": "https://cca-pdf-validator.onrender.com/",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "All",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "description": "Validates cryptographic digital signatures on Indian Government PDFs (e-Aadhaar, Pehchan Birth Certificates, DigiLocker) against 83 CCA India PKI Root Certificates."
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://cca-pdf-validator.onrender.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why does Adobe Acrobat show a yellow question mark on Indian Government PDFs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Indian government portals use digital certificates from licensed Indian Certifying Authorities (CCA India). Adobe Reader desktop does not bundle all Indian CCA roots by default, so it shows 'Validity Unknown'. SignValid evaluates the cryptographic signature against the official 83 CCA India trust roots."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is SignValid compliant with the Information Technology Act 2000?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, digital signatures validated against the Controller of Certifying Authorities (CCA) hierarchy are legally recognized under Section 5 of the Information Technology Act, 2000."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Performance: Resource Hints & CDN Preconnects -->
+  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+  <link rel="dns-prefetch" href="//unpkg.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="image" href="/static/logo.jpg" fetchpriority="high">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN with defer/async behavior handled -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons defer -->
+  <script src="https://unpkg.com/lucide@latest" defer></script>
 
   <script>
     tailwind.config = {
@@ -119,7 +182,7 @@
       
       <!-- Brand Logo -->
       <a href="/" class="flex items-center gap-2.5 text-decoration-none group">
-        <img src="/static/logo.jpg" alt="SignValid Logo" class="w-8 h-8 rounded-lg object-contain drop-shadow-sm group-hover:scale-105 transition transform bg-white p-0.5 border border-slate-200 dark:border-slate-800">
+        <img src="/static/logo.jpg" alt="SignValid Logo" width="32" height="32" fetchpriority="high" class="w-8 h-8 rounded-lg object-contain drop-shadow-sm group-hover:scale-105 transition transform bg-white p-0.5 border border-slate-200 dark:border-slate-800">
         <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">SignValid</span>
       </a>
 
@@ -1357,8 +1420,23 @@ curl -X POST "${window.location.origin}/api/validate" \
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (e) {}
 
-    // Initial load
-    loadTrustStore();
+    // Initialize Lucide icons once DOM is ready
+    if (window.lucide) {
+      window.lucide.createIcons();
+    } else {
+      window.addEventListener('load', () => { if (window.lucide) window.lucide.createIcons(); });
+    }
+
+    // Defer loading heavy certificate list until browser is idle or user clicks modal
+    openTrustStoreBtn.addEventListener('click', () => {
+      if (!loadedCerts.length) loadTrustStore();
+    });
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => loadTrustStore(), { timeout: 3000 });
+    } else {
+      window.addEventListener('load', () => setTimeout(loadTrustStore, 1000));
+    }
   </script>
 </body>
 </html>
