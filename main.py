@@ -41,8 +41,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount static folder
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+# Custom StaticFiles class to set long-term cache headers for assets
+class CachedStaticFiles(StaticFiles):
+    async def get_response(self, path: str, scope):
+        response = await super().get_response(path, scope)
+        if response.status_code == 200:
+            # 7 days browser cache for images, icons, and static assets
+            response.headers["Cache-Control"] = "public, max-age=604800, immutable"
+        return response
+
+# Mount static folder with caching
+app.mount("/static", CachedStaticFiles(directory=STATIC_DIR), name="static")
 
 FAVICON_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#116d44"/><path d="M25 50 L42 67 L75 33" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>"""
 

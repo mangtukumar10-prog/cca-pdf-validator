@@ -81,7 +81,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="/static/logo.jpg" fetchpriority="high">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 
   <!-- Tailwind CSS CDN with defer/async behavior handled -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -164,10 +166,10 @@
       color: #6ee7b7;
       border: 1px solid #047857;
     }
-    /* Smooth transitions */
-    * {
-      transition-property: background-color, border-color, color;
-      transition-duration: 0.1s;
+    /* Smooth transitions for interactive elements */
+    button, a, input, select {
+      transition-property: background-color, border-color, color, box-shadow;
+      transition-duration: 0.15s;
     }
   </style>
 </head>
