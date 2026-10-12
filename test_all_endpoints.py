@@ -2,7 +2,7 @@ import urllib.request
 import json
 import os
 
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = "https://cca-pdf-validator.onrender.com"
 
 print("1. Testing homepage...")
 r = urllib.request.urlopen(BASE_URL + "/")
@@ -14,9 +14,9 @@ r = urllib.request.urlopen(BASE_URL + "/api/roots")
 roots_data = json.loads(r.read())
 print(f"   Loaded {roots_data.get('total')} roots OK.")
 
-print("3. Testing sample validation: vivan_birth_certificate_original_signed.pdf...")
+print("3. Testing sample validation: sample_rajasthan_birth_certificate_signed.pdf...")
 req = urllib.request.Request(
-    BASE_URL + "/api/samples/vivan_birth_certificate_original_signed.pdf/validate",
+    BASE_URL + "/api/samples/sample_rajasthan_birth_certificate_signed.pdf/validate",
     data=b"",
     method="POST"
 )
