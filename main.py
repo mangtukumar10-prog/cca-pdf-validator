@@ -86,6 +86,7 @@ async def favicon():
     return Response(content=FAVICON_SVG, media_type="image/svg+xml")
 
 @app.get("/ads.txt", response_class=Response, include_in_schema=False)
+@app.get("/app-ads.txt", response_class=Response, include_in_schema=False)
 async def serve_ads_txt():
     ads_txt_file = os.path.join(STATIC_DIR, "ads.txt")
     if os.path.exists(ads_txt_file):
