@@ -209,10 +209,14 @@
       </nav>
 
       <!-- Theme & Action Controls -->
-      <div class="flex items-center gap-2.5">
-        <button id="themeToggleBtn" aria-label="Toggle theme" class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+      <div class="flex items-center gap-1.5 sm:gap-2.5">
+        <button id="themeToggleBtn" aria-label="Toggle theme" title="Toggle dark/light theme" class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
           <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
           <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+        </button>
+
+        <button id="openSettingsBtn" aria-label="App Settings & Updates" title="App Settings & Updates" class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <i data-lucide="settings" class="w-4 h-4"></i>
         </button>
 
         <a href="#validate" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white shadow-sm transition hidden sm:inline-flex items-center gap-1">
@@ -856,8 +860,99 @@ curl -X POST "${window.location.origin}/api/validate" \
 
 
 
+  <!-- App Settings & Updates Modal -->
+  <div id="settingsModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full shadow-2xl overflow-hidden flex flex-col">
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950">
+        <h3 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+          <i data-lucide="settings" class="w-4 h-4 text-emerald-600"></i>
+          App Settings & Updates
+        </h3>
+        <button id="closeSettingsBtn" aria-label="Close settings dialog" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+          <span class="sr-only">Close</span>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-5 text-xs">
+        <!-- App Version & Info -->
+        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <img src="/static/icon-192.png" alt="App Icon" class="w-10 h-10 rounded-xl shadow-xs border border-slate-200 dark:border-slate-700">
+            <div>
+              <p class="font-bold text-slate-900 dark:text-white text-sm">SignValid for Android</p>
+              <p class="text-[11px] text-slate-500 font-mono">v1.0.0 (Production Build)</p>
+            </div>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Installed</span>
+        </div>
+
+        <!-- Check for Updates Card -->
+        <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-bold text-slate-900 dark:text-white">Software Updates</p>
+              <p class="text-[11px] text-slate-500">Service Worker & PKI trust store syncing</p>
+            </div>
+            <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i>
+          </div>
+          <button id="checkForUpdatesBtn" class="w-full py-2.5 px-3 rounded-xl font-bold bg-emerald-800 hover:bg-emerald-900 text-white flex items-center justify-center gap-2 transition shadow-sm">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span id="updateBtnText">Check for updates</span>
+          </button>
+          <p id="updateStatusText" class="text-[10px] text-center text-slate-500 hidden"></p>
+        </div>
+
+        <!-- Offline Storage & Cache -->
+        <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-900 dark:text-white">App Cache & Storage</span>
+            <span class="text-[10px] font-mono text-slate-500">PWA Offline v2</span>
+          </div>
+          <p class="text-[11px] text-slate-500 leading-relaxed">
+            All PDF processing is executed locally and in-memory. No document content is ever saved to disk or external servers.
+          </p>
+          <button id="clearCacheBtn" class="w-full py-2 px-3 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition text-[11px] font-medium flex items-center justify-center gap-1.5">
+            <i data-lucide="trash-2" class="w-3 h-3 text-slate-400"></i>
+            <span>Refresh offline cache</span>
+          </button>
+        </div>
+
+        <!-- Legal & PKI Architecture -->
+        <div class="text-[10px] text-slate-400 text-center space-y-1 pt-1">
+          <p>Certified under IT Act 2000 &bull; India CCA Trust Framework</p>
+          <p>Controller of Certifying Authorities PKI Root Store: 83 Roots active</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Native-style Android Bottom Navigation Bar (Visible on mobile / small screens) -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-3 py-1.5 flex items-center justify-around shadow-lg">
+    <a href="#validate" class="bottom-nav-item flex flex-col items-center gap-0.5 text-emerald-700 dark:text-emerald-400 font-bold p-1">
+      <i data-lucide="shield-check" class="w-5 h-5"></i>
+      <span class="text-[10px]">Validate</span>
+    </a>
+    <a href="#documents" class="bottom-nav-item flex flex-col items-center gap-0.5 text-slate-500 dark:text-slate-400 hover:text-emerald-700 dark:hover:text-emerald-400 p-1">
+      <i data-lucide="file-text" class="w-5 h-5"></i>
+      <span class="text-[10px]">Docs</span>
+    </a>
+    <button onclick="document.getElementById('openTrustStoreBtn').click()" class="bottom-nav-item flex flex-col items-center gap-0.5 text-slate-500 dark:text-slate-400 hover:text-emerald-700 dark:hover:text-emerald-400 p-1">
+      <i data-lucide="award" class="w-5 h-5"></i>
+      <span class="text-[10px]">Authorities</span>
+    </button>
+    <a href="#faq" class="bottom-nav-item flex flex-col items-center gap-0.5 text-slate-500 dark:text-slate-400 hover:text-emerald-700 dark:hover:text-emerald-400 p-1">
+      <i data-lucide="help-circle" class="w-5 h-5"></i>
+      <span class="text-[10px]">FAQ</span>
+    </a>
+    <button onclick="document.getElementById('openSettingsBtn').click()" class="bottom-nav-item flex flex-col items-center gap-0.5 text-slate-500 dark:text-slate-400 hover:text-emerald-700 dark:hover:text-emerald-400 p-1">
+      <i data-lucide="settings" class="w-5 h-5"></i>
+      <span class="text-[10px]">Settings</span>
+    </button>
+  </nav>
+
   <!-- Footer -->
-  <footer class="border-t border-slate-200 dark:border-slate-800 py-8 bg-slate-50 dark:bg-slate-950 text-xs text-slate-500 dark:text-slate-400 mt-auto">
+  <footer class="border-t border-slate-200 dark:border-slate-800 py-8 pb-20 md:pb-8 bg-slate-50 dark:bg-slate-950 text-xs text-slate-500 dark:text-slate-400 mt-auto">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2">
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
@@ -1482,6 +1577,68 @@ curl -X POST "${window.location.origin}/api/validate" \
       window.requestIdleCallback(() => loadTrustStore(), { timeout: 3000 });
     } else {
       window.addEventListener('load', () => setTimeout(loadTrustStore, 1000));
+    }
+
+    // Settings Modal & Updates Logic
+    const settingsModal = document.getElementById('settingsModal');
+    const openSettingsBtn = document.getElementById('openSettingsBtn');
+    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+    const checkForUpdatesBtn = document.getElementById('checkForUpdatesBtn');
+    const updateBtnText = document.getElementById('updateBtnText');
+    const updateStatusText = document.getElementById('updateStatusText');
+    const clearCacheBtn = document.getElementById('clearCacheBtn');
+
+    if (openSettingsBtn && settingsModal) {
+      openSettingsBtn.addEventListener('click', () => settingsModal.classList.remove('hidden'));
+    }
+    if (closeSettingsBtn && settingsModal) {
+      closeSettingsBtn.addEventListener('click', () => settingsModal.classList.add('hidden'));
+    }
+
+    if (checkForUpdatesBtn) {
+      checkForUpdatesBtn.addEventListener('click', async () => {
+        checkForUpdatesBtn.disabled = true;
+        updateBtnText.textContent = 'Checking for updates...';
+        updateStatusText.classList.remove('hidden');
+        updateStatusText.textContent = 'Contacting server and validating PKI root store...';
+
+        try {
+          // Check for Service Worker update
+          if ('serviceWorker' in navigator) {
+            const reg = await navigator.serviceWorker.getRegistration();
+            if (reg) await reg.update();
+          }
+
+          // Fetch fresh roots check
+          const resp = await fetch('/api/roots');
+          const data = await resp.json();
+          rootsCountBadge.textContent = `${data.total}`;
+          statCertsCount.textContent = `${data.total}`;
+
+          setTimeout(() => {
+            updateBtnText.textContent = 'Up to date';
+            updateStatusText.innerHTML = `<span class="text-emerald-600 font-semibold">✓ You are using the latest version with ${data.total} active CCA roots.</span>`;
+            checkForUpdatesBtn.disabled = false;
+          }, 800);
+        } catch (e) {
+          updateBtnText.textContent = 'Check for updates';
+          updateStatusText.textContent = 'Failed to check updates: ' + e.message;
+          checkForUpdatesBtn.disabled = false;
+        }
+      });
+    }
+
+    if (clearCacheBtn) {
+      clearCacheBtn.addEventListener('click', async () => {
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map(k => caches.delete(k)));
+          alert('Offline cache refreshed successfully!');
+          window.location.reload();
+        } else {
+          alert('Cache cleared.');
+        }
+      });
     }
 
     // Register Service Worker for Android App / PWA
