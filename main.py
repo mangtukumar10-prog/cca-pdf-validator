@@ -63,6 +63,15 @@ async def serve_service_worker():
             return Response(content=f.read(), media_type="application/javascript", headers={"Service-Worker-Allowed": "/"})
     return Response(content="", media_type="application/javascript")
 
+@app.get("/.well-known/assetlinks.json", include_in_schema=False)
+@app.get("/static/.well-known/assetlinks.json", include_in_schema=False)
+async def serve_assetlinks():
+    al_file = os.path.join(STATIC_DIR, ".well-known", "assetlinks.json")
+    if os.path.exists(al_file):
+        with open(al_file, "r", encoding="utf-8") as f:
+            return Response(content=f.read(), media_type="application/json")
+    return Response(content="[]", media_type="application/json")
+
 @app.get("/manifest.json", include_in_schema=False)
 @app.get("/static/manifest.json", include_in_schema=False)
 async def serve_manifest():

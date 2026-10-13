@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.onrender.cca_pdf_validator.twa",
+      "sha256_cert_fingerprints": [
+        "38:9C:CA:E3:DF:AF:3A:6C:88:DE:6A:D6:BE:FD:C9:1E:44:24:16:D6:36:83:74:BD:8D:D3:E7:35:BD:C6:86:8B"
+      ]
+    }
+  }
+]
