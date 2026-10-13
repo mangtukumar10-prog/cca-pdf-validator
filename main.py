@@ -164,7 +164,9 @@ async def serve_index():
         return HTMLResponse(
             content=content,
             headers={
-                "Cache-Control": "public, max-age=300, s-maxage=600, stale-while-revalidate=86400",
+                "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
+                "Pragma": "no-cache",
+                "Expires": "0",
                 "X-Robots-Tag": "index, follow"
             }
         )

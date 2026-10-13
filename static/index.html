@@ -137,6 +137,21 @@
       background-color: #ffffff;
       color: #212529;
     }
+    /* Android Standalone App & Mobile Bottom Navigation Bar */
+    #appBottomNav {
+      display: flex !important;
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0.5rem));
+    }
+    @media (min-width: 768px) {
+      #appBottomNav {
+        display: none !important;
+      }
+    }
+    @media all and (display-mode: standalone) {
+      #appBottomNav {
+        display: flex !important;
+      }
+    }
     .sv-hero {
       background: linear-gradient(180deg, rgba(17, 109, 68, 0.04) 0%, rgba(255, 255, 255, 0) 100%);
     }
@@ -927,8 +942,8 @@ curl -X POST "${window.location.origin}/api/validate" \
     </div>
   </div>
 
-  <!-- Native-style Android Bottom Navigation Bar (Visible on mobile / small screens) -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-3 py-1.5 flex items-center justify-around shadow-lg">
+  <!-- Native-style Android Bottom Navigation Bar (Visible on mobile / small screens & standalone app) -->
+  <nav id="appBottomNav" class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-3 py-1.5 flex items-center justify-around shadow-2xl">
     <a href="#validate" class="bottom-nav-item flex flex-col items-center gap-0.5 text-emerald-700 dark:text-emerald-400 font-bold p-1">
       <i data-lucide="shield-check" class="w-5 h-5"></i>
       <span class="text-[10px]">Validate</span>
