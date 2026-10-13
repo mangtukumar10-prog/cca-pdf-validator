@@ -89,8 +89,8 @@
 
   <!-- Tailwind CSS CDN with defer/async behavior handled -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons defer -->
-  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <script>
     tailwind.config = {
@@ -316,7 +316,7 @@
                   </p>
                   <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">or</p>
                   
-                  <button type="button" class="px-5 py-2 rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold shadow-md shadow-emerald-900/20 transition">
+                  <button type="button" id="chooseFilesBtn" class="px-5 py-2 rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold shadow-md shadow-emerald-900/20 transition pointer-events-auto">
                     Choose files
                   </button>
 
@@ -866,8 +866,10 @@ curl -X POST "${window.location.origin}/api/validate" \
 
   <!-- Application Logic -->
   <script>
-    // Initialize Icons
-    lucide.createIcons();
+    // Initialize Icons safely
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      try { lucide.createIcons(); } catch (e) { console.warn('Lucide icon init warning:', e); }
+    }
 
     // Theme Toggle
     const themeBtn = document.getElementById('themeToggleBtn');
@@ -915,8 +917,21 @@ curl -X POST "${window.location.origin}/api/validate" \
       lucide.createIcons();
     });
 
-    // Dropzone Events
-    dropZone.addEventListener('click', () => fileInput.click());
+    // Dropzone & File Input Events
+    const chooseFilesBtn = document.getElementById('chooseFilesBtn');
+    if (chooseFilesBtn) {
+      chooseFilesBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fileInput.click();
+      });
+    }
+
+    dropZone.addEventListener('click', (e) => {
+      // Don't double trigger if clicked on the chooseFilesBtn
+      if (e.target !== chooseFilesBtn && !chooseFilesBtn.contains(e.target)) {
+        fileInput.click();
+      }
+    });
     
     ['dragenter', 'dragover'].forEach(name => {
       dropZone.addEventListener(name, (e) => {
@@ -1068,10 +1083,26 @@ curl -X POST "${window.location.origin}/api/validate" \
           method: 'POST',
           body: formData
         });
+        
+        if (!resp.ok) {
+          const errText = await resp.text();
+          throw new Error(`Server returned HTTP ${resp.status}: ${errText}`);
+        }
+        
         const data = await resp.json();
         renderResults(data);
       } catch (err) {
-        alert('Validation error: ' + err.message);
+        console.error('Validation error:', err);
+        resultsList.innerHTML = `
+          <div class="p-5 rounded-2xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-400 font-medium text-xs flex items-center gap-3">
+            <i data-lucide="alert-octagon" class="w-6 h-6 shrink-0"></i>
+            <div>
+              <p class="font-bold">Failed to validate uploaded document</p>
+              <p class="text-[11px] mt-0.5 opacity-80">${err.message || 'Network error occurred while uploading. Please try again.'}</p>
+            </div>
+          </div>
+        `;
+        if (window.lucide) { try { lucide.createIcons(); } catch(e){} }
       } finally {
         loadingState.classList.add('hidden');
       }
