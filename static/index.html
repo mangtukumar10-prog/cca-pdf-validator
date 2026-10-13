@@ -123,24 +123,257 @@
   </script>
 
   <style>
-    /* SignValid exact brand styles */
+    /* SignValid exact brand styles & Glassmorphism Design System */
     :root {
       --sv-green: #116d44;
       --sv-green-hover: #0d5434;
       --sv-green-light: #f0fdf4;
     }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Custom sleek glass scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 9999px;
+      backdrop-filter: blur(4px);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(16, 185, 129, 0.65);
+    }
+
     [data-bs-theme="dark"] body {
-      background-color: #12161f;
+      background-color: #0b0f19;
       color: #e2e8f0;
     }
     [data-bs-theme="light"] body {
-      background-color: #ffffff;
-      color: #212529;
+      background-color: #f8fafc;
+      color: #1e293b;
     }
-    /* Android Standalone App & Mobile Bottom Navigation Bar */
+
+    /* Ambient Background Glow Elements */
+    .ambient-glow-wrap {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ambient-glow-orb {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(85px);
+      transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ambient-orb-1 {
+      top: -120px;
+      right: -80px;
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, rgba(5, 150, 105, 0.08) 60%, transparent 80%);
+      opacity: 0.85;
+    }
+    .ambient-orb-2 {
+      top: 38%;
+      left: -140px;
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.16) 0%, rgba(14, 165, 233, 0.04) 60%, transparent 80%);
+      opacity: 0.75;
+    }
+    .ambient-orb-3 {
+      bottom: 2%;
+      right: 5%;
+      width: 440px;
+      height: 440px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.14) 0%, rgba(139, 92, 246, 0.04) 60%, transparent 80%);
+      opacity: 0.75;
+    }
+    [data-bs-theme="dark"] .ambient-orb-1 {
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.05) 60%, transparent 80%);
+      opacity: 0.9;
+    }
+    [data-bs-theme="dark"] .ambient-orb-2 {
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.16) 0%, transparent 80%);
+      opacity: 0.85;
+    }
+    [data-bs-theme="dark"] .ambient-orb-3 {
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.14) 0%, transparent 80%);
+      opacity: 0.8;
+    }
+
+    /* Core Glass Panels & Cards */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.06), 0 2px 6px 0 rgba(0, 0, 0, 0.02), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    [data-bs-theme="dark"] .glass-panel {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 6px 20px -3px rgba(15, 23, 42, 0.04);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.12), 0 4px 8px -2px rgba(0, 0, 0, 0.02);
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+    [data-bs-theme="dark"] .glass-card {
+      background: rgba(30, 41, 59, 0.55);
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 6px 20px -3px rgba(0, 0, 0, 0.3);
+    }
+    [data-bs-theme="dark"] .glass-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.18);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    /* Glass Dropzone */
+    .glass-dropzone {
+      background: linear-gradient(135deg, rgba(236, 253, 245, 0.65) 0%, rgba(240, 253, 250, 0.35) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px dashed rgba(16, 185, 129, 0.45);
+      border-radius: 1.25rem;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-dropzone:hover, .glass-dropzone.dragover {
+      background: linear-gradient(135deg, rgba(209, 250, 229, 0.8) 0%, rgba(167, 243, 208, 0.45) 100%);
+      border-color: #059669;
+      box-shadow: 0 12px 30px -5px rgba(16, 185, 129, 0.2), inset 0 2px 6px rgba(16, 185, 129, 0.06);
+      transform: scale(1.008);
+    }
+    [data-bs-theme="dark"] .glass-dropzone {
+      background: linear-gradient(135deg, rgba(6, 78, 59, 0.25) 0%, rgba(15, 23, 42, 0.35) 100%);
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+    [data-bs-theme="dark"] .glass-dropzone:hover, [data-bs-theme="dark"] .glass-dropzone.dragover {
+      background: linear-gradient(135deg, rgba(6, 78, 59, 0.45) 0%, rgba(16, 185, 129, 0.15) 100%);
+      border-color: #10b981;
+      box-shadow: 0 12px 30px -5px rgba(16, 185, 129, 0.25);
+    }
+
+    /* Glass Input */
+    .glass-input {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(203, 213, 225, 0.7);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-input:focus {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18), 0 4px 12px rgba(16, 185, 129, 0.08);
+    }
+    [data-bs-theme="dark"] .glass-input {
+      background: rgba(15, 23, 42, 0.65);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    [data-bs-theme="dark"] .glass-input:focus {
+      background: rgba(15, 23, 42, 0.95);
+      border-color: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+    }
+
+    /* Glass Action Buttons */
+    .glass-btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 6px 20px -2px rgba(5, 150, 105, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-btn-primary:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%);
+      box-shadow: 0 10px 25px -2px rgba(5, 150, 105, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+      transform: translateY(-1.5px);
+    }
+    .glass-btn-primary:active {
+      transform: scale(0.97) translateY(0);
+    }
+
+    .glass-chip {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(203, 213, 225, 0.6);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-chip:hover {
+      background: rgba(240, 253, 244, 0.9);
+      border-color: rgba(16, 185, 129, 0.45);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.12);
+    }
+    [data-bs-theme="dark"] .glass-chip {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    [data-bs-theme="dark"] .glass-chip:hover {
+      background: rgba(6, 78, 59, 0.35);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    /* Glass Header */
+    .glass-header {
+      background: rgba(255, 255, 255, 0.8) !important;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    }
+    [data-bs-theme="dark"] .glass-header {
+      background: rgba(11, 15, 25, 0.8) !important;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Native Android & Mobile Floating Glassy Bottom Nav Dock */
     #appBottomNav {
       display: flex !important;
-      padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0.5rem));
+      background: rgba(255, 255, 255, 0.85) !important;
+      backdrop-filter: blur(24px) saturate(200%);
+      -webkit-backdrop-filter: blur(24px) saturate(200%);
+      border-top: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.07), 0 -1px 3px rgba(0, 0, 0, 0.03);
+      padding-bottom: max(0.6rem, env(safe-area-inset-bottom, 0.6rem));
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    [data-bs-theme="dark"] #appBottomNav {
+      background: rgba(15, 23, 42, 0.85) !important;
+      backdrop-filter: blur(24px) saturate(200%);
+      -webkit-backdrop-filter: blur(24px) saturate(200%);
+      border-top: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.45);
     }
     @media (min-width: 768px) {
       #appBottomNav {
@@ -152,61 +385,75 @@
         display: flex !important;
       }
     }
+
     .sv-hero {
-      background: linear-gradient(180deg, rgba(17, 109, 68, 0.04) 0%, rgba(255, 255, 255, 0) 100%);
-    }
-    [data-bs-theme="dark"] .sv-hero {
-      background: linear-gradient(180deg, rgba(17, 109, 68, 0.08) 0%, rgba(18, 22, 31, 0) 100%);
+      background: transparent;
     }
     .sv-chip {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 3px 9px;
+      padding: 4px 10px;
       border-radius: 9999px;
       font-size: 11px;
       font-weight: 600;
-      transition: all 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .sv-chip-before {
-      background-color: #fef3c7;
+      background-color: rgba(254, 243, 199, 0.8);
       color: #92400e;
-      border: 1px solid #fde68a;
+      border: 1px solid rgba(253, 230, 138, 0.8);
+      backdrop-filter: blur(6px);
     }
     .sv-chip-after {
-      background-color: #d1fae5;
+      background-color: rgba(209, 250, 229, 0.8);
       color: #065f46;
-      border: 1px solid #a7f3d0;
+      border: 1px solid rgba(167, 243, 208, 0.8);
+      backdrop-filter: blur(6px);
     }
     [data-bs-theme="dark"] .sv-chip-before {
-      background-color: #78350f40;
+      background-color: rgba(120, 53, 15, 0.35);
       color: #fde68a;
-      border: 1px solid #92400e;
+      border: 1px solid rgba(146, 64, 14, 0.4);
+      backdrop-filter: blur(6px);
     }
     [data-bs-theme="dark"] .sv-chip-after {
-      background-color: #064e3b40;
+      background-color: rgba(6, 78, 59, 0.35);
       color: #6ee7b7;
-      border: 1px solid #047857;
+      border: 1px solid rgba(4, 120, 87, 0.4);
+      backdrop-filter: blur(6px);
     }
-    /* Smooth transitions for interactive elements */
+
+    /* Fluid Micro-interactions */
     button, a, input, select {
-      transition-property: background-color, border-color, color, box-shadow;
-      transition-duration: 0.15s;
+      transition-property: background-color, border-color, color, box-shadow, transform;
+      transition-duration: 0.2s;
+      transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    button:active {
+      transform: scale(0.97);
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col font-sans selection:bg-emerald-600 selection:text-white">
+<body class="min-h-screen flex flex-col font-sans selection:bg-emerald-600 selection:text-white relative overflow-x-hidden">
+
+  <!-- Ambient Glassmorphism Background Glow Orbs -->
+  <div class="ambient-glow-wrap" aria-hidden="true">
+    <div class="ambient-glow-orb ambient-orb-1"></div>
+    <div class="ambient-glow-orb ambient-orb-2"></div>
+    <div class="ambient-glow-orb ambient-orb-3"></div>
+  </div>
 
   <!-- Top Announcement / Tricolor Line -->
-  <div class="h-1 bg-gradient-to-r from-amber-500 via-slate-200 to-emerald-600"></div>
+  <div class="h-1 bg-gradient-to-r from-amber-500 via-emerald-400 to-emerald-600 opacity-90"></div>
 
   <!-- Header -->
-  <header class="border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md sticky top-0 z-40">
+  <header class="glass-header sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
       
       <!-- Brand Logo -->
       <a href="/" class="flex items-center gap-2.5 text-decoration-none group">
-        <img src="/static/logo.jpg" alt="SignValid Logo" width="32" height="32" fetchpriority="high" class="w-8 h-8 rounded-lg object-contain drop-shadow-sm group-hover:scale-105 transition transform bg-white p-0.5 border border-slate-200 dark:border-slate-800">
+        <img src="/static/logo.jpg" alt="SignValid Logo" width="32" height="32" fetchpriority="high" class="w-8 h-8 rounded-xl object-contain drop-shadow-md group-hover:scale-105 transition transform bg-white/80 p-0.5 border border-white/60 dark:border-white/10">
         <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">SignValid</span>
       </a>
 
@@ -225,16 +472,16 @@
 
       <!-- Theme & Action Controls -->
       <div class="flex items-center gap-1.5 sm:gap-2.5">
-        <button id="themeToggleBtn" aria-label="Toggle theme" title="Toggle dark/light theme" class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <button id="themeToggleBtn" aria-label="Toggle theme" title="Toggle dark/light theme" class="p-2 rounded-xl text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/60 transition">
           <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
           <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
         </button>
 
-        <button id="openSettingsBtn" aria-label="App Settings & Updates" title="App Settings & Updates" class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <button id="openSettingsBtn" aria-label="App Settings & Updates" title="App Settings & Updates" class="p-2 rounded-xl text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/60 transition">
           <i data-lucide="settings" class="w-4 h-4"></i>
         </button>
 
-        <a href="#validate" class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white shadow-sm transition hidden sm:inline-flex items-center gap-1">
+        <a href="#validate" class="glass-btn-primary px-4 py-2 text-xs font-semibold rounded-xl text-white shadow-sm transition hidden sm:inline-flex items-center gap-1.5">
           <i data-lucide="upload" class="w-3.5 h-3.5"></i>
           <span>Validate PDF</span>
         </a>
@@ -244,10 +491,10 @@
   </header>
 
   <!-- Main Content -->
-  <main class="flex-1 w-full" id="main">
+  <main class="flex-1 w-full relative z-10" id="main">
 
     <!-- Hero Section -->
-    <section id="validate" class="sv-hero py-8 sm:py-12 border-b border-slate-200/80 dark:border-slate-800">
+    <section id="validate" class="sv-hero py-8 sm:py-12 border-b border-slate-200/50 dark:border-slate-800/50">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -299,19 +546,19 @@
             </div>
 
             <!-- Quick Preset Samples for 1-Click Verification -->
-            <div class="pt-3 border-t border-slate-200 dark:border-slate-800">
+            <div class="pt-3 border-t border-slate-200/60 dark:border-slate-800/60">
               <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">Try with instant samples:</p>
               <div class="flex flex-wrap gap-2">
-                <button class="sample-btn px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 hover:bg-emerald-100 transition flex items-center gap-1.5" data-sample="sample_rajasthan_birth_certificate_signed.pdf">
+                <button class="sample-btn glass-chip px-3 py-1.5 rounded-full text-xs font-semibold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5" data-sample="sample_rajasthan_birth_certificate_signed.pdf">
                   <i data-lucide="award" class="w-3.5 h-3.5"></i> Govt Birth Cert (Pehchan)
                 </button>
-                <button class="sample-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" data-sample="sample_signed_selfsigned.pdf">
+                <button class="sample-btn glass-chip px-3 py-1.5 rounded-full text-xs font-medium text-slate-700 dark:text-slate-300" data-sample="sample_signed_selfsigned.pdf">
                   Self-Signed (Untrusted)
                 </button>
-                <button class="sample-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" data-sample="sample_encrypted_pass_demo123.pdf">
+                <button class="sample-btn glass-chip px-3 py-1.5 rounded-full text-xs font-medium text-slate-700 dark:text-slate-300" data-sample="sample_encrypted_pass_demo123.pdf">
                   e-Aadhaar Encrypted
                 </button>
-                <button class="sample-btn px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" data-sample="sample_tampered.pdf">
+                <button class="sample-btn glass-chip px-3 py-1.5 rounded-full text-xs font-medium text-slate-700 dark:text-slate-300" data-sample="sample_tampered.pdf">
                   Tampered PDF
                 </button>
               </div>
@@ -321,14 +568,14 @@
 
           <!-- Upload Dropzone Card (Right 6 Cols) -->
           <div class="lg:col-span-6">
-            <div class="bg-white dark:bg-slate-900 rounded-2xl border-2 border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden">
+            <div class="glass-panel rounded-3xl overflow-hidden relative">
               
               <div class="p-6 sm:p-8">
                 <!-- Dropzone Box -->
-                <div id="dropZone" class="border-2 border-dashed border-emerald-600/50 hover:border-emerald-700 dark:border-emerald-500/50 dark:hover:border-emerald-400 bg-emerald-50/30 dark:bg-emerald-950/20 hover:bg-emerald-50/60 dark:hover:bg-emerald-950/40 rounded-xl p-8 text-center cursor-pointer transition group">
+                <div id="dropZone" class="glass-dropzone p-8 text-center cursor-pointer group">
                   <input type="file" id="pdfFileInput" multiple accept=".pdf,application/pdf" class="hidden">
                   
-                  <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-emerald-100 dark:bg-emerald-900/60 flex items-center justify-center text-emerald-800 dark:text-emerald-300 group-hover:scale-110 transition">
+                  <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-emerald-100/80 dark:bg-emerald-900/40 backdrop-blur-sm flex items-center justify-center text-emerald-800 dark:text-emerald-300 group-hover:scale-110 transition shadow-inner">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                       <path d="M12 16V4m0 0-4 4m4-4 4 4" stroke="#116d44" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
                       <path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" stroke="#6c757d" stroke-width="2.2" stroke-linecap="round"></path>
@@ -340,7 +587,7 @@
                   </p>
                   <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">or</p>
                   
-                  <button type="button" id="chooseFilesBtn" class="px-5 py-2 rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold shadow-md shadow-emerald-900/20 transition pointer-events-auto">
+                  <button type="button" id="chooseFilesBtn" class="glass-btn-primary px-6 py-2.5 rounded-xl text-xs font-bold shadow-md transition pointer-events-auto">
                     Choose files
                   </button>
 
@@ -361,7 +608,7 @@
                 </div>
 
                 <!-- Password Input (Collapsible or visible) -->
-                <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                <div class="mt-4 pt-4 border-t border-slate-200/70 dark:border-slate-800/70">
                   <div class="flex items-center justify-between mb-1.5">
                     <label for="pdfPasswordInput" class="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                       <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-500"></i>
@@ -370,8 +617,8 @@
                     <span class="text-[10px] text-slate-500 dark:text-slate-400">e.g. e-Aadhaar: NAME + YEAR</span>
                   </div>
                   <div class="relative">
-                    <input type="password" id="pdfPasswordInput" placeholder="Enter password (e.g. e-Aadhaar password)..." class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs font-mono text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-emerald-600">
-                    <button type="button" id="togglePasswordBtn" aria-label="Show password" title="Show password" class="absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                    <input type="password" id="pdfPasswordInput" placeholder="Enter password (e.g. e-Aadhaar password)..." class="glass-input w-full rounded-xl px-3 py-2.5 text-xs font-mono text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none">
+                    <button type="button" id="togglePasswordBtn" aria-label="Show password" title="Show password" class="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                       <i data-lucide="eye" class="w-4 h-4"></i>
                       <span class="sr-only">Show password</span>
                     </button>
@@ -379,7 +626,7 @@
                 </div>
 
                 <!-- Validate Action Button -->
-                <button id="validateBtn" class="mt-5 w-full py-3 px-4 rounded-xl font-bold text-sm bg-emerald-800 hover:bg-emerald-900 text-white shadow-lg shadow-emerald-900/20 flex items-center justify-center gap-2 transition disabled:opacity-50">
+                <button id="validateBtn" class="glass-btn-primary mt-5 w-full py-3.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition disabled:opacity-50 shadow-lg">
                   <i data-lucide="shield-check" class="w-5 h-5"></i>
                   <span>Validate Document(s)</span>
                 </button>
@@ -396,7 +643,7 @@
 
     <!-- Google AdSense Slot 1: Top Leaderboard / Responsive Banner -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-6">
-      <div class="p-2 sm:p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-center relative overflow-hidden shadow-xs">
+      <div class="glass-card p-3 sm:p-4 rounded-2xl text-center relative overflow-hidden">
         <div class="text-[9px] uppercase tracking-widest font-bold text-slate-400 dark:text-slate-500 mb-1 flex items-center justify-center gap-1">
           <span>Advertisement</span>
           <span class="text-slate-300 dark:text-slate-700">&bull;</span>
@@ -422,8 +669,8 @@
     <section id="results-anchor" class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
       
       <!-- Loading State -->
-      <div id="loadingState" class="p-10 text-center rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hidden">
-        <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 flex items-center justify-center animate-spin">
+      <div id="loadingState" class="glass-panel p-10 text-center rounded-3xl hidden">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-emerald-100/80 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 flex items-center justify-center animate-spin">
           <i data-lucide="loader-2" class="w-6 h-6"></i>
         </div>
         <h3 class="text-base font-bold text-slate-900 dark:text-white">Validating signature cryptographically...</h3>
@@ -442,7 +689,7 @@
           <span class="text-slate-300 dark:text-slate-700">&bull;</span>
           <span>Google AdSense</span>
         </div>
-        <div class="p-3 sm:p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-center relative overflow-hidden shadow-xs">
+        <div class="glass-card p-3 sm:p-4 rounded-2xl text-center relative overflow-hidden">
           <ins class="adsbygoogle"
                style="display:block"
                data-ad-client="ca-pub-1369869894707122"
@@ -475,11 +722,11 @@
       </div>
 
       <!-- Sample Report Mockup Card -->
-      <div class="bg-slate-50 dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8">
+      <div class="glass-panel rounded-3xl p-6 sm:p-8">
         
         <!-- Result Header -->
-        <div class="flex items-center gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
-          <div class="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-lg">
+        <div class="flex items-center gap-3 pb-4 border-b border-slate-200/60 dark:border-slate-800/60">
+          <div class="w-8 h-8 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-lg shadow-sm">
             ✓
           </div>
           <div>
@@ -489,7 +736,7 @@
         </div>
 
         <!-- This Document Card -->
-        <div class="mt-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <div class="mt-4 p-4 rounded-2xl glass-card">
           <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">This document</p>
           <div class="flex items-center gap-2">
             <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">e-Aadhaar / Rajasthan Pehchan Birth Certificate</span>
@@ -549,7 +796,7 @@
     </section>
 
     <!-- "Why does Adobe show a yellow question mark?" Section -->
-    <section class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200/50 dark:border-slate-800/50">
       <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
         Why does Adobe show a yellow question mark?
       </h2>
@@ -567,13 +814,13 @@
     </section>
 
     <!-- "How SignValid works" 3 Steps Section -->
-    <section id="how-it-works" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
+    <section id="how-it-works" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200/50 dark:border-slate-800/50">
       <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6">
         How SignValid works
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <div class="p-6 rounded-2xl glass-card">
           <div class="text-emerald-700 dark:text-emerald-400 font-mono text-sm font-bold mb-2">01 · UPLOAD</div>
           <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Drop your PDF</h3>
           <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -581,7 +828,7 @@
           </p>
         </div>
 
-        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <div class="p-6 rounded-2xl glass-card">
           <div class="text-emerald-700 dark:text-emerald-400 font-mono text-sm font-bold mb-2">02 · REAL VALIDATION</div>
           <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Cryptographic check</h3>
           <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -589,7 +836,7 @@
           </p>
         </div>
 
-        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <div class="p-6 rounded-2xl glass-card">
           <div class="text-emerald-700 dark:text-emerald-400 font-mono text-sm font-bold mb-2">03 · VERIFIED DISPLAY COPY</div>
           <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Download green tick copy</h3>
           <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -661,23 +908,23 @@
     </section>
 
     <!-- "Who SignValid trusts" Section -->
-    <section id="trusted" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
-      <div class="bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/60 rounded-2xl p-6 sm:p-8">
+    <section id="trusted" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200/50 dark:border-slate-800/50">
+      <div class="glass-panel rounded-3xl p-6 sm:p-8">
         <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Who SignValid trusts</h2>
         <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-6 max-w-2xl leading-relaxed">
           Every check ends at a root certificate operated by India’s Controller of Certifying Authorities. This is the store the validator checks against — the roots, the licensed authorities and their sub-authorities.
         </p>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <div class="p-4 rounded-2xl glass-card">
             <p class="text-xs text-slate-500 dark:text-slate-400">Certificates in the store</p>
             <p class="text-2xl font-extrabold text-emerald-800 dark:text-emerald-400 mt-1" id="statCertsCount">83</p>
           </div>
-          <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <div class="p-4 rounded-2xl glass-card">
             <p class="text-xs text-slate-500 dark:text-slate-400">Current roots</p>
             <p class="text-sm font-bold text-slate-900 dark:text-white mt-1">CCA India 2022 · 2022 SPL · 2014</p>
           </div>
-          <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+          <div class="p-4 rounded-2xl glass-card">
             <p class="text-xs text-slate-500 dark:text-slate-400">Licensed authorities</p>
             <p class="text-sm font-bold text-slate-900 dark:text-white mt-1">SpeedSign, eMudhra, Capricorn, CDAC, Protean...</p>
           </div>
@@ -690,7 +937,7 @@
     </section>
 
     <!-- Free API & Developer Integration Section -->
-    <section id="api" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
+    <section id="api" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200/50 dark:border-slate-800/50">
       <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <p class="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-400 mb-1">Developer API</p>
@@ -701,7 +948,7 @@
             Integrate Indian Government PDF validation and verified green-tick display copy generation into your apps, portals, or backend pipelines. 100% free with no API keys or signup required.
           </p>
         </div>
-        <a href="/docs" target="_blank" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white shadow-sm flex items-center gap-2 self-start shrink-0 transition">
+        <a href="/docs" target="_blank" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-900/90 hover:bg-slate-800 dark:bg-slate-800/90 dark:hover:bg-slate-700 text-white shadow-sm flex items-center gap-2 self-start shrink-0 transition">
           <i data-lucide="external-link" class="w-4 h-4 text-emerald-400"></i>
           <span>Interactive Swagger Docs (/docs)</span>
         </a>
@@ -710,7 +957,7 @@
       <!-- API Endpoints Cards Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         
-        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs">
+        <div class="p-4 rounded-2xl glass-card text-xs">
           <div class="flex items-center gap-2 mb-1.5">
             <span class="px-2 py-0.5 rounded font-mono font-bold text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">POST</span>
             <code class="font-mono text-slate-900 dark:text-white font-bold">/api/validate</code>
@@ -718,7 +965,7 @@
           <p class="text-slate-600 dark:text-slate-400">Validate one or multiple PDFs against the 83 CCA India Root certificates. Returns JSON with mathematical integrity, CCA chain path, and verdict.</p>
         </div>
 
-        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs">
+        <div class="p-4 rounded-2xl glass-card text-xs">
           <div class="flex items-center gap-2 mb-1.5">
             <span class="px-2 py-0.5 rounded font-mono font-bold text-[10px] bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">GET</span>
             <code class="font-mono text-slate-900 dark:text-white font-bold">/api/download-verified/{sha256}</code>
@@ -726,7 +973,7 @@
           <p class="text-slate-600 dark:text-slate-400">Download the verified display copy PDF featuring the Adobe Acrobat green checkmark mark and signer metadata overlaid at the signature rect.</p>
         </div>
 
-        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs">
+        <div class="p-4 rounded-2xl glass-card text-xs">
           <div class="flex items-center gap-2 mb-1.5">
             <span class="px-2 py-0.5 rounded font-mono font-bold text-[10px] bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">GET</span>
             <code class="font-mono text-slate-900 dark:text-white font-bold">/api/download-audit-cert/{sha256}</code>
@@ -734,7 +981,7 @@
           <p class="text-slate-600 dark:text-slate-400">Download the official 1-page Cryptographic Audit Certificate PDF conforming to Section 35 of the Information Technology Act 2000.</p>
         </div>
 
-        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs">
+        <div class="p-4 rounded-2xl glass-card text-xs">
           <div class="flex items-center gap-2 mb-1.5">
             <span class="px-2 py-0.5 rounded font-mono font-bold text-[10px] bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">GET</span>
             <code class="font-mono text-slate-900 dark:text-white font-bold">/api/roots</code>
@@ -745,10 +992,10 @@
       </div>
 
       <!-- Quick Code Example -->
-      <div class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-900 text-slate-100 text-xs font-mono">
-        <div class="px-4 py-2 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+      <div class="rounded-2xl overflow-hidden border border-slate-800 bg-slate-900/95 text-slate-100 text-xs font-mono shadow-lg">
+        <div class="px-4 py-2.5 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between">
           <span class="text-slate-400">cURL Example</span>
-          <span class="text-[10px] text-emerald-400 font-sans">No API Key Required</span>
+          <span class="text-[10px] text-emerald-400 font-sans font-semibold">No API Key Required</span>
         </div>
         <div class="p-4 overflow-x-auto text-[11px] leading-relaxed">
           <pre><code># Validate any Indian Government signed PDF
@@ -760,15 +1007,15 @@ curl -X POST "${window.location.origin}/api/validate" \
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200 dark:border-slate-800">
+    <section id="faq" class="max-w-6xl mx-auto px-4 sm:px-6 py-12 border-t border-slate-200/50 dark:border-slate-800/50">
       <div class="mb-8">
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Frequently asked questions
         </h2>
       </div>
 
-      <div class="space-y-4 max-w-3xl">
-        <details class="group bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-xs select-none">
+      <div class="space-y-3.5 max-w-3xl">
+        <details class="group glass-card rounded-2xl p-4 text-xs select-none">
           <summary class="font-bold text-sm text-slate-900 dark:text-white cursor-pointer flex items-center justify-between">
             <span>Is the downloaded copy digitally signed?</span>
             <span class="group-open:rotate-180 transition font-mono">&#9662;</span>
@@ -778,7 +1025,7 @@ curl -X POST "${window.location.origin}/api/validate" \
           </p>
         </details>
 
-        <details class="group bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-xs select-none">
+        <details class="group glass-card rounded-2xl p-4 text-xs select-none">
           <summary class="font-bold text-sm text-slate-900 dark:text-white cursor-pointer flex items-center justify-between">
             <span>Do you store my documents?</span>
             <span class="group-open:rotate-180 transition font-mono">&#9662;</span>
@@ -788,7 +1035,7 @@ curl -X POST "${window.location.origin}/api/validate" \
           </p>
         </details>
 
-        <details class="group bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-xs select-none">
+        <details class="group glass-card rounded-2xl p-4 text-xs select-none">
           <summary class="font-bold text-sm text-slate-900 dark:text-white cursor-pointer flex items-center justify-between">
             <span>Why does Adobe show “Validity Unknown” on a genuine document?</span>
             <span class="group-open:rotate-180 transition font-mono">&#9662;</span>
@@ -798,7 +1045,7 @@ curl -X POST "${window.location.origin}/api/validate" \
           </p>
         </details>
 
-        <details class="group bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-xs select-none">
+        <details class="group glass-card rounded-2xl p-4 text-xs select-none">
           <summary class="font-bold text-sm text-slate-900 dark:text-white cursor-pointer flex items-center justify-between">
             <span>Validation failed but I believe the document is genuine. Now what?</span>
             <span class="group-open:rotate-180 transition font-mono">&#9662;</span>
@@ -808,7 +1055,7 @@ curl -X POST "${window.location.origin}/api/validate" \
           </p>
         </details>
 
-        <details class="group bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-xs select-none">
+        <details class="group glass-card rounded-2xl p-4 text-xs select-none">
           <summary class="font-bold text-sm text-slate-900 dark:text-white cursor-pointer flex items-center justify-between">
             <span>Is SignValid a government service?</span>
             <span class="group-open:rotate-180 transition font-mono">&#9662;</span>
@@ -822,7 +1069,7 @@ curl -X POST "${window.location.origin}/api/validate" \
 
     <!-- Google AdSense Slot 3: Bottom Horizontal Unit -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 my-10">
-      <div class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-center relative overflow-hidden shadow-xs">
+      <div class="glass-card p-3 sm:p-4 rounded-2xl text-center relative overflow-hidden">
         <div class="text-[9px] uppercase tracking-widest font-bold text-slate-400 dark:text-slate-500 mb-1 flex items-center justify-center gap-1">
           <span>Advertisement</span>
           <span class="text-slate-300 dark:text-slate-700">&bull;</span>
@@ -843,26 +1090,25 @@ curl -X POST "${window.location.origin}/api/validate" \
         </div>
       </div>
     </div>
-
   </main>
 
   <!-- Trust Store Modal -->
-  <div id="trustStoreModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+  <div id="trustStoreModal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="px-6 py-4 border-b border-white/60 dark:border-white/10 flex items-center justify-between">
         <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
           <svg width="20" height="20" viewBox="0 0 100 100" fill="none"><path d="M2 59L12.5 46L37 75.5L81 1L95.5 11.5L38 94.5L2 59Z" fill="#00B23B" stroke="black"></path></svg>
           Trusted Certificate Authorities (CCA India)
         </h3>
-        <button id="closeTrustStoreBtn" aria-label="Close trusted certificate authorities dialog" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg">
+        <button id="closeTrustStoreBtn" aria-label="Close trusted certificate authorities dialog" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1.5 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition">
           <i data-lucide="x" class="w-5 h-5"></i>
           <span class="sr-only">Close</span>
         </button>
       </div>
 
-      <div class="px-6 py-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex flex-wrap items-center justify-between gap-3">
-        <input type="text" id="certSearchInput" placeholder="Filter by authority name (e.g. SpeedSign, eMudhra, Capricorn)..." class="flex-1 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-1.5 text-xs">
-        <button id="syncRootsBtn" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-800 text-white hover:bg-emerald-900 transition flex items-center gap-1.5">
+      <div class="px-6 py-3 border-b border-white/60 dark:border-white/10 bg-white/40 dark:bg-slate-900/40 backdrop-blur-sm flex flex-wrap items-center justify-between gap-3">
+        <input type="text" id="certSearchInput" placeholder="Filter by authority name (e.g. SpeedSign, eMudhra, Capricorn)..." class="glass-input flex-1 rounded-xl px-3 py-2 text-xs">
+        <button id="syncRootsBtn" class="glass-btn-primary px-3.5 py-2 rounded-xl text-xs font-semibold text-white transition flex items-center gap-1.5 shadow-sm">
           <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Sync cca.gov.in
         </button>
       </div>
@@ -873,37 +1119,35 @@ curl -X POST "${window.location.origin}/api/validate" \
     </div>
   </div>
 
-
-
   <!-- App Settings & Updates Modal -->
-  <div id="settingsModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full shadow-2xl overflow-hidden flex flex-col">
-      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950">
+  <div id="settingsModal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel rounded-3xl max-w-md w-full shadow-2xl overflow-hidden flex flex-col">
+      <div class="px-6 py-4 border-b border-white/60 dark:border-white/10 flex items-center justify-between bg-white/40 dark:bg-slate-900/40">
         <h3 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
           <i data-lucide="settings" class="w-4 h-4 text-emerald-600"></i>
           App Settings & Updates
         </h3>
-        <button id="closeSettingsBtn" aria-label="Close settings dialog" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg">
+        <button id="closeSettingsBtn" aria-label="Close settings dialog" class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1.5 rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition">
           <i data-lucide="x" class="w-5 h-5"></i>
           <span class="sr-only">Close</span>
         </button>
       </div>
 
-      <div class="p-6 space-y-5 text-xs">
+      <div class="p-6 space-y-4 text-xs">
         <!-- App Version & Info -->
-        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div class="glass-card p-4 rounded-2xl flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <img src="/static/icon-192.png" alt="App Icon" class="w-10 h-10 rounded-xl shadow-xs border border-slate-200 dark:border-slate-700">
+            <img src="/static/icon-192.png" alt="App Icon" class="w-10 h-10 rounded-xl shadow-xs border border-white/60 dark:border-white/10">
             <div>
               <p class="font-bold text-slate-900 dark:text-white text-sm">SignValid for Android</p>
               <p class="text-[11px] text-slate-500 font-mono">v1.0.0 (Production Build)</p>
             </div>
           </div>
-          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Installed</span>
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">Installed</span>
         </div>
 
         <!-- Check for Updates Card -->
-        <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+        <div class="glass-card p-4 rounded-2xl space-y-3">
           <div class="flex items-center justify-between">
             <div>
               <p class="font-bold text-slate-900 dark:text-white">Software Updates</p>
@@ -911,7 +1155,7 @@ curl -X POST "${window.location.origin}/api/validate" \
             </div>
             <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i>
           </div>
-          <button id="checkForUpdatesBtn" class="w-full py-2.5 px-3 rounded-xl font-bold bg-emerald-800 hover:bg-emerald-900 text-white flex items-center justify-center gap-2 transition shadow-sm">
+          <button id="checkForUpdatesBtn" class="glass-btn-primary w-full py-2.5 px-3 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition shadow-md">
             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
             <span id="updateBtnText">Check for updates</span>
           </button>
@@ -919,15 +1163,15 @@ curl -X POST "${window.location.origin}/api/validate" \
         </div>
 
         <!-- Offline Storage & Cache -->
-        <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
+        <div class="glass-card p-4 rounded-2xl space-y-2">
           <div class="flex items-center justify-between">
             <span class="font-bold text-slate-900 dark:text-white">App Cache & Storage</span>
-            <span class="text-[10px] font-mono text-slate-500">PWA Offline v2</span>
+            <span class="text-[10px] font-mono text-slate-500">PWA Offline v3</span>
           </div>
           <p class="text-[11px] text-slate-500 leading-relaxed">
             All PDF processing is executed locally and in-memory. No document content is ever saved to disk or external servers.
           </p>
-          <button id="clearCacheBtn" class="w-full py-2 px-3 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition text-[11px] font-medium flex items-center justify-center gap-1.5">
+          <button id="clearCacheBtn" class="glass-chip w-full py-2 px-3 rounded-xl text-slate-700 dark:text-slate-300 transition text-[11px] font-medium flex items-center justify-center gap-1.5">
             <i data-lucide="trash-2" class="w-3 h-3 text-slate-400"></i>
             <span>Refresh offline cache</span>
           </button>
@@ -943,7 +1187,7 @@ curl -X POST "${window.location.origin}/api/validate" \
   </div>
 
   <!-- Native-style Android Bottom Navigation Bar (Visible on mobile / small screens & standalone app) -->
-  <nav id="appBottomNav" class="fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 px-3 py-1.5 flex items-center justify-around shadow-2xl">
+  <nav id="appBottomNav" class="fixed bottom-0 left-0 right-0 z-50 px-3 py-2 flex items-center justify-around">
     <a href="#validate" class="bottom-nav-item flex flex-col items-center gap-0.5 text-emerald-700 dark:text-emerald-400 font-bold p-1">
       <i data-lucide="shield-check" class="w-5 h-5"></i>
       <span class="text-[10px]">Validate</span>
@@ -1328,10 +1572,10 @@ curl -X POST "${window.location.origin}/api/validate" \
       }
 
       return `
-        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm">
+        <div class="glass-panel rounded-3xl p-6 sm:p-8">
           
           <!-- Top Verdict Card -->
-          <div class="p-5 rounded-2xl ${isGenuine ? 'bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/80' : 'bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800'}">
+          <div class="p-5 rounded-2xl glass-card ${isGenuine ? 'bg-emerald-50/70 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-700/60' : ''}">
             <div class="flex items-center gap-3">
               ${iconSvg}
               <div>
@@ -1346,7 +1590,7 @@ curl -X POST "${window.location.origin}/api/validate" \
           </div>
 
           <!-- Document Info -->
-          <div class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+          <div class="mt-4 p-4 rounded-2xl glass-card">
             <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">This document</p>
             <div class="flex flex-wrap items-center gap-2">
               <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white">
@@ -1413,7 +1657,7 @@ curl -X POST "${window.location.origin}/api/validate" \
               <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">Who vouches for whom</h4>
               <div class="space-y-2 text-xs">
                 
-                <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <div class="p-3.5 rounded-xl glass-card flex items-center justify-between">
                   <div>
                     <span class="text-[10px] font-bold text-slate-500 uppercase block">Signer</span>
                     <span class="font-bold text-slate-900 dark:text-white">${firstSig.signer_name}</span>
@@ -1422,7 +1666,7 @@ curl -X POST "${window.location.origin}/api/validate" \
                 </div>
 
                 ${cert.issuer_cn ? `
-                  <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                  <div class="p-3.5 rounded-xl glass-card flex items-center justify-between">
                     <div>
                       <span class="text-[10px] font-bold text-slate-500 uppercase block">Sub-authority</span>
                       <span class="font-bold text-slate-900 dark:text-white">${cert.issuer_cn}</span>
@@ -1432,7 +1676,7 @@ curl -X POST "${window.location.origin}/api/validate" \
                 ` : ''}
 
                 ${firstSig.trusted ? `
-                  <div class="p-3 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/80 flex items-center justify-between">
+                  <div class="p-3.5 rounded-xl glass-card bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-800/80 flex items-center justify-between">
                     <div>
                       <span class="text-[10px] font-bold text-emerald-800 dark:text-emerald-400 uppercase block">Root Authority</span>
                       <span class="font-bold text-slate-900 dark:text-white">CCA India 2022</span>
@@ -1441,7 +1685,7 @@ curl -X POST "${window.location.origin}/api/validate" \
                     <span class="text-[11px] text-emerald-800 dark:text-emerald-400 font-bold">RCAI Root</span>
                   </div>
                 ` : `
-                  <div class="p-3 rounded-lg bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/80 flex items-center justify-between">
+                  <div class="p-3.5 rounded-xl glass-card bg-amber-50/50 dark:bg-amber-950/20 border-amber-300 dark:border-amber-800/80 flex items-center justify-between">
                     <div>
                       <span class="text-[10px] font-bold text-amber-800 dark:text-amber-400 uppercase block">Root Authority</span>
                       <span class="font-bold text-slate-900 dark:text-white">Untrusted / Self-Signed Root</span>
@@ -1456,31 +1700,31 @@ curl -X POST "${window.location.origin}/api/validate" \
           ` : ''}
 
           <!-- Action & Download Buttons Bar (Exactly like SignValid) -->
-          <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+          <div class="mt-6 pt-5 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-wrap items-center justify-between gap-3">
             <span class="text-xs font-semibold text-slate-500">Download results:</span>
 
             <div class="flex flex-wrap items-center gap-2.5">
               ${isGenuine ? `
-                <a href="/api/download-verified/${item.sha256}" download class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white shadow-md shadow-emerald-900/20 flex items-center gap-2 transition">
+                <a href="/api/download-verified/${item.sha256}" download class="glass-btn-primary px-5 py-2.5 rounded-xl text-xs font-bold text-white shadow-md flex items-center gap-2 transition">
                   <svg width="16" height="16" viewBox="0 0 100 100" fill="none"><path d="M2 59L12.5 46L37 75.5L81 1L95.5 11.5L38 94.5L2 59Z" fill="#00B23B" stroke="white" stroke-width="4"></path></svg>
                   <span>Download verified display copy</span>
-                  <span class="text-[9px] bg-emerald-950 px-1 py-0.2 rounded font-mono">Green Tick</span>
+                  <span class="text-[9px] bg-emerald-950/60 px-1.5 py-0.5 rounded font-mono">Green Tick</span>
                 </a>
 
-                <a href="/api/download-audit-cert/${item.sha256}" download class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white shadow-sm flex items-center gap-2 transition">
-                  <i data-lucide="award" class="w-4 h-4 text-sky-400"></i>
+                <a href="/api/download-audit-cert/${item.sha256}" download class="glass-chip px-4 py-2.5 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2 transition">
+                  <i data-lucide="award" class="w-4 h-4 text-emerald-500"></i>
                   <span>Download Audit Certificate (PDF)</span>
                 </a>
               ` : `
                 ${item.sha256 ? `
-                  <a href="/api/download-audit-cert/${item.sha256}" download class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 flex items-center gap-1.5 transition">
-                    <i data-lucide="award" class="w-4 h-4 text-sky-500"></i>
+                  <a href="/api/download-audit-cert/${item.sha256}" download class="glass-chip px-4 py-2 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 transition">
+                    <i data-lucide="award" class="w-3.5 h-3.5 text-slate-500"></i>
                     <span>Verification Certificate (PDF)</span>
                   </a>
                 ` : ''}
               `}
 
-              <button onclick="downloadJsonReportByKey('${itemKey}')" class="px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center gap-1.5 transition">
+              <button onclick="downloadJsonReportByKey('${itemKey}')" class="glass-chip px-3 py-1.5 rounded-xl text-xs font-medium text-slate-700 dark:text-slate-300 flex items-center gap-1.5 transition">
                 <i data-lucide="code" class="w-3.5 h-3.5"></i>
                 <span>JSON</span>
               </button>
