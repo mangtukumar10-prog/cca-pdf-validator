@@ -1,4 +1,4 @@
-const CACHE_NAME = 'signvalid-v5';
+const CACHE_NAME = 'signvalid-v6';
 const OFFLINE_URL = '/';
 
 const ASSETS_TO_CACHE = [

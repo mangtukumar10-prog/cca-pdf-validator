@@ -360,30 +360,31 @@
     /* Native Android & Mobile Floating Glassy Bottom Nav Dock */
     #appBottomNav {
       display: flex !important;
-      background: rgba(255, 255, 255, 0.85) !important;
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 60 !important;
+      background: rgba(255, 255, 255, 0.88) !important;
       backdrop-filter: blur(24px) saturate(200%);
       -webkit-backdrop-filter: blur(24px) saturate(200%);
-      border-top: 1px solid rgba(255, 255, 255, 0.8);
-      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.07), 0 -1px 3px rgba(0, 0, 0, 0.03);
+      border-top: 1px solid rgba(226, 232, 240, 0.85);
+      box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.08), 0 -1px 3px rgba(0, 0, 0, 0.03);
       padding-bottom: max(0.6rem, env(safe-area-inset-bottom, 0.6rem));
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     [data-bs-theme="dark"] #appBottomNav {
-      background: rgba(15, 23, 42, 0.85) !important;
-      backdrop-filter: blur(24px) saturate(200%);
-      -webkit-backdrop-filter: blur(24px) saturate(200%);
+      background: rgba(15, 23, 42, 0.9) !important;
       border-top: 1px solid rgba(255, 255, 255, 0.09);
-      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
     }
-    @media (min-width: 768px) {
-      #appBottomNav {
+    @media (min-width: 1024px) {
+      body:not(.is-standalone-app) #appBottomNav {
         display: none !important;
       }
     }
-    @media all and (display-mode: standalone) {
-      #appBottomNav {
-        display: flex !important;
-      }
+    body.is-standalone-app #appBottomNav {
+      display: flex !important;
     }
 
     .sv-hero {
@@ -649,18 +650,13 @@
           <span class="text-slate-300 dark:text-slate-700">&bull;</span>
           <span>Google AdSense</span>
         </div>
-        <div class="min-h-[90px] flex items-center justify-center overflow-hidden">
+        <div class="min-h-[90px] w-full flex items-center justify-center overflow-hidden">
           <ins class="adsbygoogle"
-               style="display:block"
+               style="display:block; width:100%"
                data-ad-client="ca-pub-1369869894707122"
                data-ad-slot="4506690329"
                data-ad-format="auto"
                data-full-width-responsive="true"></ins>
-          <div class="adsense-preview-box text-xs text-slate-400 dark:text-slate-500 py-3 flex flex-wrap items-center justify-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-            <span class="font-semibold text-slate-600 dark:text-slate-300">Google AdSense Top Banner Unit (728x90 / Responsive)</span>
-            <span class="text-[10px] bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 px-1.5 py-0.5 rounded font-mono">Auto Ads Active</span>
-          </div>
         </div>
       </div>
     </div>
@@ -689,21 +685,13 @@
           <span class="text-slate-300 dark:text-slate-700">&bull;</span>
           <span>Google AdSense</span>
         </div>
-        <div class="glass-card p-3 sm:p-4 rounded-2xl text-center relative overflow-hidden">
+        <div class="glass-card p-3 sm:p-4 rounded-2xl text-center relative overflow-hidden min-h-[100px] flex items-center justify-center">
           <ins class="adsbygoogle"
-               style="display:block"
+               style="display:block; width:100%"
                data-ad-client="ca-pub-1369869894707122"
                data-ad-slot="9155461909"
                data-ad-format="auto"
                data-full-width-responsive="true"></ins>
-          <div class="adsense-preview-box text-xs text-slate-400 dark:text-slate-500 py-4 flex flex-col items-center gap-1.5">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-              <span class="font-bold text-slate-700 dark:text-slate-200">Google AdSense In-Feed Native Unit</span>
-              <span class="text-[10px] bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">Matched Content</span>
-            </div>
-            <p class="text-[11px] text-slate-500 max-w-md">Displays relevant verification, digital signature token, and document compliance services.</p>
-          </div>
         </div>
       </div>
 
@@ -1075,25 +1063,20 @@ curl -X POST "${window.location.origin}/api/validate" \
           <span class="text-slate-300 dark:text-slate-700">&bull;</span>
           <span>Google AdSense</span>
         </div>
-        <div class="min-h-[90px] flex items-center justify-center overflow-hidden">
+        <div class="min-h-[90px] w-full flex items-center justify-center overflow-hidden">
           <ins class="adsbygoogle"
-               style="display:block"
+               style="display:block; width:100%"
                data-ad-client="ca-pub-1369869894707122"
                data-ad-slot="4506690329"
                data-ad-format="auto"
                data-full-width-responsive="true"></ins>
-          <div class="adsense-preview-box text-xs text-slate-400 dark:text-slate-500 py-3 flex flex-wrap items-center justify-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-sky-500"></span>
-            <span class="font-semibold text-slate-600 dark:text-slate-300">Google AdSense Bottom Leaderboard (728x90 / 970x90 / Mobile 300x250)</span>
-            <span class="text-[10px] bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded font-mono">Auto Responsive</span>
-          </div>
         </div>
       </div>
     </div>
   </main>
 
   <!-- Trust Store Modal -->
-  <div id="trustStoreModal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+  <div id="trustStoreModal" class="fixed inset-0 z-[100] bg-slate-950/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
       <div class="px-6 py-4 border-b border-white/60 dark:border-white/10 flex items-center justify-between">
         <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
@@ -1120,7 +1103,7 @@ curl -X POST "${window.location.origin}/api/validate" \
   </div>
 
   <!-- App Settings & Updates Modal -->
-  <div id="settingsModal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
+  <div id="settingsModal" class="fixed inset-0 z-[100] bg-slate-950/60 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel rounded-3xl max-w-md w-full shadow-2xl overflow-hidden flex flex-col">
       <div class="px-6 py-4 border-b border-white/60 dark:border-white/10 flex items-center justify-between bg-white/40 dark:bg-slate-900/40">
         <h3 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
@@ -1905,6 +1888,17 @@ curl -X POST "${window.location.origin}/api/validate" \
           alert('Cache cleared.');
         }
       });
+    }
+
+    // Detect Standalone APK / PWA / Installed App mode
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                         window.navigator.standalone === true ||
+                         document.referrer.includes('android-app://') ||
+                         window.location.search.includes('standalone=true') ||
+                         window.location.search.includes('source=apk') ||
+                         window.location.search.includes('utm_source=webapk');
+    if (isStandalone) {
+      document.body.classList.add('is-standalone-app');
     }
 
     // Register Service Worker for Android App / PWA
