@@ -18,6 +18,10 @@
 
   <link rel="canonical" href="https://cca-pdf-validator.onrender.com/">
   <meta name="keywords" content="validate digital signature online, indian pdf signature validator, e aadhaar green tick, pehchan birth certificate signature valid, digilocker signature verify, cca india roots, question mark to green tick pdf, form 16 signature validator">
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#116d44">
   <meta name="color-scheme" content="light dark">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -1477,6 +1481,13 @@ curl -X POST "${window.location.origin}/api/validate" \
       window.requestIdleCallback(() => loadTrustStore(), { timeout: 3000 });
     } else {
       window.addEventListener('load', () => setTimeout(loadTrustStore, 1000));
+    }
+
+    // Register Service Worker for Android App / PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration error:', err));
+      });
     }
   </script>
 </body>

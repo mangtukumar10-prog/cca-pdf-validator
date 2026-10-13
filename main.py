@@ -55,6 +55,14 @@ app.mount("/static", CachedStaticFiles(directory=STATIC_DIR), name="static")
 
 FAVICON_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#116d44"/><path d="M25 50 L42 67 L75 33" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>"""
 
+@app.get("/sw.js", include_in_schema=False)
+async def serve_service_worker():
+    sw_file = os.path.join(STATIC_DIR, "sw.js")
+    if os.path.exists(sw_file):
+        with open(sw_file, "r", encoding="utf-8") as f:
+            return Response(content=f.read(), media_type="application/javascript", headers={"Service-Worker-Allowed": "/"})
+    return Response(content="", media_type="application/javascript")
+
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     return Response(content=FAVICON_SVG, media_type="image/svg+xml")
