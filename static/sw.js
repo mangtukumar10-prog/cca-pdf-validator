@@ -1,8 +1,16 @@
-const CACHE_NAME = 'signvalid-v1';
+const CACHE_NAME = 'signvalid-v2';
+const OFFLINE_URL = '/';
+
 const ASSETS_TO_CACHE = [
   '/',
+  '/manifest.json',
   '/static/manifest.json',
-  '/static/logo.jpg'
+  '/static/icon-192.png',
+  '/static/icon-512.png',
+  '/static/icon-maskable-192.png',
+  '/static/icon-maskable-512.png',
+  '/static/screenshot1.png',
+  '/static/screenshot2.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -30,11 +38,19 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests and skip API POSTs
   if (event.request.method !== 'GET') return;
+  
+  // Respond with cache first for static, network with fallback for navigation
   event.respondWith(
-    fetch(event.request).catch(() => {
-      return caches.match(event.request);
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(event.request).catch(() => {
+        if (event.request.mode === 'navigate') {
+          return caches.match(OFFLINE_URL);
+        }
+      });
     })
   );
 });

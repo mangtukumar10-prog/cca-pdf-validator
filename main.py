@@ -63,6 +63,15 @@ async def serve_service_worker():
             return Response(content=f.read(), media_type="application/javascript", headers={"Service-Worker-Allowed": "/"})
     return Response(content="", media_type="application/javascript")
 
+@app.get("/manifest.json", include_in_schema=False)
+@app.get("/static/manifest.json", include_in_schema=False)
+async def serve_manifest():
+    m_file = os.path.join(STATIC_DIR, "manifest.json")
+    if os.path.exists(m_file):
+        with open(m_file, "r", encoding="utf-8") as f:
+            return Response(content=f.read(), media_type="application/manifest+json")
+    return Response(content="{}", media_type="application/manifest+json")
+
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     return Response(content=FAVICON_SVG, media_type="image/svg+xml")

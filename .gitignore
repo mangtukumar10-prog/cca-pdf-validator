@@ -5,6 +5,5 @@ mingit/
 *.zip
 *.log
 .system_generated/
-*.tmp
-*.png
+!static/*.png
 

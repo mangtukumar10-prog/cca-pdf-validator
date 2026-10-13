@@ -1,24 +1,66 @@
 {
+  "id": "https://cca-pdf-validator.onrender.com/",
   "name": "SignValid - CCA India PDF Signature Validator",
   "short_name": "SignValid",
+  "description": "Validate digital signatures on Indian Government PDFs (e-Aadhaar, Pehchan Birth Certificates, DigiLocker, PAN cards) against 83 CCA India PKI Roots.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#116d44",
-  "description": "Validate digital signatures on Indian Government PDFs (e-Aadhaar, Pehchan Birth Certificates, DigiLocker) against 83 CCA India PKI Roots.",
-  "orientation": "portrait",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["utilities", "business", "security"],
   "icons": [
     {
-      "src": "/static/logo.jpg",
+      "src": "/static/icon-192.png",
       "sizes": "192x192",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/static/logo.jpg",
+      "src": "/static/icon-512.png",
       "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/static/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/static/screenshot1.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "SignValid PDF Validation Home Screen"
+    },
+    {
+      "src": "/static/screenshot2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "SignValid Digital Signature Audit Interface"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Validate PDF",
+      "short_name": "Validate",
+      "description": "Quickly check Indian PDF signatures",
+      "url": "/#validate",
+      "icons": [{ "src": "/static/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
