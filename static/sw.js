@@ -1,4 +1,4 @@
-const CACHE_NAME = 'signvalid-v4';
+const CACHE_NAME = 'signvalid-v5';
 const OFFLINE_URL = '/';
 
 const ASSETS_TO_CACHE = [
@@ -18,7 +18,11 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
-        keys.map((key) => caches.delete(key))
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
       );
     })
   );
@@ -33,8 +37,10 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
+          if (response && response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone)).catch(() => {});
+          }
           return response;
         })
         .catch(() => caches.match(OFFLINE_URL))
@@ -48,7 +54,7 @@ self.addEventListener('fetch', (event) => {
       if (cachedResponse) {
         return cachedResponse;
       }
-      return fetch(event.request);
+      return fetch(event.request).catch(() => caches.match(OFFLINE_URL));
     })
   );
 });

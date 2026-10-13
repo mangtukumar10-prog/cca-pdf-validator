@@ -1815,9 +1815,16 @@ curl -X POST "${window.location.origin}/api/validate" \
       }
     });
 
-    // Initialize Google AdSense
+    // Initialize Google AdSense for all ad slots safely
     try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      const adElements = document.querySelectorAll('ins.adsbygoogle:not([data-adsbygoogle-status])');
+      adElements.forEach(() => {
+        try {
+          (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (slotErr) {
+          console.debug('AdSense slot init notice:', slotErr);
+        }
+      });
     } catch (e) {}
 
     // Initialize Lucide icons once DOM is ready

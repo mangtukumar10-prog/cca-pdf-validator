@@ -60,7 +60,14 @@ async def serve_service_worker():
     sw_file = os.path.join(STATIC_DIR, "sw.js")
     if os.path.exists(sw_file):
         with open(sw_file, "r", encoding="utf-8") as f:
-            return Response(content=f.read(), media_type="application/javascript", headers={"Service-Worker-Allowed": "/"})
+            return Response(
+                content=f.read(),
+                media_type="application/javascript",
+                headers={
+                    "Service-Worker-Allowed": "/",
+                    "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0"
+                }
+            )
     return Response(content="", media_type="application/javascript")
 
 @app.get("/.well-known/assetlinks.json", include_in_schema=False)
@@ -126,6 +133,7 @@ async def serve_sitemap_xml():
     return Response(content=content, media_type="application/xml")
 
 @app.get("/api/adsense")
+@app.get("/api/adsense/status")
 async def get_adsense_info():
     ads_txt_file = os.path.join(STATIC_DIR, "ads.txt")
     pub_id = "pub-0000000000000000"
