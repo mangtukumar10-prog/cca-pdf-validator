@@ -586,7 +586,7 @@ def validate_pdf_data(pdf_bytes: bytes, filename: str = "document.pdf", password
                         )
                         lower_f = filename.lower()
                         if any(k in lower_f for k in ["birth", "vivan", "pehchan", "aadhaar", "cert"]):
-                            result["sample_hint"] = "vivan_birth_certificate_original_signed.pdf"
+                            result["sample_hint"] = "sample_rajasthan_birth_certificate_signed.pdf"
                             result["sample_hint_title"] = "Validate Original Signed Birth Certificate (AMIT GARG)"
                         result["status_color"] = "amber"
                         return result

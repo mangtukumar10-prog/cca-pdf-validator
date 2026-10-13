@@ -6,6 +6,7 @@ import glob
 import hashlib
 import re
 import urllib.parse
+import tempfile
 from typing import List, Optional, Dict, Any
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Response
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
@@ -277,8 +278,11 @@ def get_validated_file_data(sha256: str) -> Optional[Dict[str, Any]]:
         if k.lower().strip() == sha256_clean:
             return v
     
-    # Disk lookup fallback across workspace and downloads
-    search_dirs = [HERE, r"C:\Users\mangtu\Downloads"]
+    # Disk lookup fallback across workspace, tempdir, and user downloads
+    search_dirs = [HERE, tempfile.gettempdir()]
+    home_dl = os.path.join(os.path.expanduser("~"), "Downloads")
+    if os.path.exists(home_dl):
+        search_dirs.append(home_dl)
     for s_dir in search_dirs:
         if not os.path.exists(s_dir):
             continue
@@ -343,17 +347,16 @@ async def list_samples():
 
 @app.get("/api/samples/{filename}")
 async def get_sample_file(filename: str):
+    if filename == "vivan_birth_certificate_original_signed.pdf":
+        filename = "sample_rajasthan_birth_certificate_signed.pdf"
     p = os.path.join(HERE, filename)
     if not os.path.exists(p):
         raise HTTPException(status_code=404, detail="Sample not found")
     return FileResponse(p, filename=filename, media_type="application/pdf")
 
-@app.post("/api/samples/{filename}/validate")
-async def validate_sample_file(
-    filename: str,
-    password: Optional[str] = Form(None),
-    offline: bool = Form(True)
-):
+async def _do_validate_sample(filename: str, password: Optional[str] = None, offline: bool = True):
+    if filename == "vivan_birth_certificate_original_signed.pdf":
+        filename = "sample_rajasthan_birth_certificate_signed.pdf"
     p = os.path.join(HERE, filename)
     if not os.path.exists(p):
         raise HTTPException(status_code=404, detail="Sample not found")
@@ -376,6 +379,22 @@ async def validate_sample_file(
             "filename": filename
         }
     return [res]
+
+@app.get("/api/samples/{filename}/validate")
+async def validate_sample_file_get(
+    filename: str,
+    password: Optional[str] = None,
+    offline: bool = True
+):
+    return await _do_validate_sample(filename, password, offline)
+
+@app.post("/api/samples/{filename}/validate")
+async def validate_sample_file_post(
+    filename: str,
+    password: Optional[str] = Form(None),
+    offline: bool = Form(True)
+):
+    return await _do_validate_sample(filename, password, offline)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
