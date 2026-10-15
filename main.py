@@ -8,8 +8,8 @@ import re
 import urllib.parse
 import tempfile
 from typing import List, Optional, Dict, Any
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Response
-from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Response, Request
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
@@ -32,6 +32,21 @@ app = FastAPI(
     description="Validate PDF Digital Signatures against the official Controller of Certifying Authorities (CCA) India PKI Trust Set",
     version="2.0.0"
 )
+
+@app.middleware("http")
+async def enforce_https_and_hsts(request: Request, call_next):
+    # Check X-Forwarded-Proto header set by Render, Cloudflare, or load balancer
+    proto = request.headers.get("x-forwarded-proto", "").lower()
+    if proto == "http":
+        # Permanently redirect (301 Moved Permanently) HTTP requests to HTTPS
+        url = request.url.replace(scheme="https")
+        return RedirectResponse(url=str(url), status_code=301)
+    
+    response = await call_next(request)
+    
+    # Enforce HTTP Strict Transport Security (HSTS) on all responses
+    response.headers["Strict-Transport-Security"] = "max-age=63072000; includeSubDomains; preload"
+    return response
 
 app.add_middleware(GZipMiddleware, minimum_size=500)
 app.add_middleware(
