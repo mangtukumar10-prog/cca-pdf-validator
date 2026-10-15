@@ -448,6 +448,14 @@
   <!-- Top Announcement / Tricolor Line -->
   <div class="h-1 bg-gradient-to-r from-amber-500 via-emerald-400 to-emerald-600 opacity-90"></div>
 
+  <!-- Live Cloud Connection Status Banner (Vital for mobile APK / Render cold starts) -->
+  <div id="serverStatusBanner" class="hidden w-full py-1.5 px-4 text-center text-xs font-semibold transition-all duration-300 z-50">
+    <div class="max-w-6xl mx-auto flex items-center justify-center gap-2">
+      <span id="serverStatusDot" class="w-2 h-2 rounded-full"></span>
+      <span id="serverStatusText">Connecting to CCA PKI cloud server...</span>
+    </div>
+  </div>
+
   <!-- Header -->
   <header class="glass-header sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -574,7 +582,7 @@
               <div class="p-6 sm:p-8">
                 <!-- Dropzone Box -->
                 <div id="dropZone" class="glass-dropzone p-8 text-center cursor-pointer group">
-                  <input type="file" id="pdfFileInput" multiple accept=".pdf,application/pdf" class="hidden">
+                  <input type="file" id="pdfFileInput" multiple accept=".pdf,application/pdf,application/x-pdf,*/*" class="hidden">
                   
                   <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-emerald-100/80 dark:bg-emerald-900/40 backdrop-blur-sm flex items-center justify-center text-emerald-800 dark:text-emerald-300 group-hover:scale-110 transition shadow-inner">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -588,9 +596,9 @@
                   </p>
                   <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">or</p>
                   
-                  <button type="button" id="chooseFilesBtn" class="glass-btn-primary px-6 py-2.5 rounded-xl text-xs font-bold shadow-md transition pointer-events-auto">
+                  <label for="pdfFileInput" id="chooseFilesBtn" class="glass-btn-primary px-6 py-2.5 rounded-xl text-xs font-bold shadow-md transition inline-block cursor-pointer">
                     Choose files
-                  </button>
+                  </label>
 
                   <p class="text-xs text-slate-500 dark:text-slate-400 mt-4 leading-relaxed">
                     e-Aadhaar, birth / income / community certificate, DigiLocker PDF, PAN e-card…
@@ -1261,15 +1269,8 @@ curl -X POST "${window.location.origin}/api/validate" \
 
     // Dropzone & File Input Events
     const chooseFilesBtn = document.getElementById('chooseFilesBtn');
-    if (chooseFilesBtn) {
-      chooseFilesBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        fileInput.click();
-      });
-    }
-
     dropZone.addEventListener('click', (e) => {
-      // Don't double trigger if clicked on the chooseFilesBtn
+      // If clicked anywhere in dropzone outside the native label, trigger fileInput
       if (e.target !== chooseFilesBtn && !chooseFilesBtn.contains(e.target)) {
         fileInput.click();
       }
@@ -1900,6 +1901,48 @@ curl -X POST "${window.location.origin}/api/validate" \
     if (isStandalone) {
       document.body.classList.add('is-standalone-app');
     }
+
+    // Heartbeat & Cold-Start Connection Monitor
+    const serverStatusBanner = document.getElementById('serverStatusBanner');
+    const serverStatusDot = document.getElementById('serverStatusDot');
+    const serverStatusText = document.getElementById('serverStatusText');
+
+    async function checkServerHealth() {
+      const warmUpTimer = setTimeout(() => {
+        if (serverStatusBanner) {
+          serverStatusBanner.classList.remove('hidden');
+          serverStatusBanner.className = 'w-full py-2 px-4 text-center text-xs font-semibold bg-amber-500/15 border-b border-amber-500/30 text-amber-600 dark:text-amber-400 z-50';
+          serverStatusDot.className = 'w-2 h-2 rounded-full bg-amber-500 animate-ping';
+          serverStatusText.textContent = '⚡ Cloud server is waking up (takes ~25s on free tier)... Please wait a moment.';
+        }
+      }, 1500);
+
+      try {
+        const resp = await fetch('/api/health', { cache: 'no-store' });
+        clearTimeout(warmUpTimer);
+        if (resp.ok) {
+          const data = await resp.json();
+          if (serverStatusBanner && !serverStatusBanner.classList.contains('hidden')) {
+            serverStatusBanner.className = 'w-full py-1.5 px-4 text-center text-xs font-semibold bg-emerald-500/15 border-b border-emerald-500/30 text-emerald-700 dark:text-emerald-400 z-50';
+            serverStatusDot.className = 'w-2 h-2 rounded-full bg-emerald-500';
+            serverStatusText.textContent = `🟢 Connected to CCA India PKI Trust Set (${data.roots_loaded || 83} Active Roots)`;
+            setTimeout(() => {
+              serverStatusBanner.classList.add('hidden');
+            }, 3000);
+          }
+        }
+      } catch (err) {
+        clearTimeout(warmUpTimer);
+        if (serverStatusBanner) {
+          serverStatusBanner.classList.remove('hidden');
+          serverStatusBanner.className = 'w-full py-2 px-4 text-center text-xs font-semibold bg-sky-500/15 border-b border-sky-500/30 text-sky-600 dark:text-sky-400 z-50';
+          serverStatusDot.className = 'w-2 h-2 rounded-full bg-sky-500';
+          serverStatusText.textContent = '📡 Offline / Cached Mode — Local interface ready';
+        }
+      }
+    }
+
+    checkServerHealth();
 
     // Register Service Worker for Android App / PWA
     if ('serviceWorker' in navigator) {
